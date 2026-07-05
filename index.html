@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Japan'App 2026 — Guide Jeunes</title>
+<meta name="description" content="Guide du jeune — séjour Japan'App 2026 de Verdié Hello. Programme jour par jour, missions, phrases utiles. Fonctionne hors connexion.">
+
+<!-- Couleur de thème (barre d'état / UI navigateur) -->
+<meta name="theme-color" content="#0b0e1a">
+
+<!-- Manifeste PWA (installation Android / desktop) -->
+<link rel="manifest" href="manifest.webmanifest">
+
+<!-- Favicon + icônes -->
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+<!-- iOS : installation « Ajouter à l'écran d'accueil » + plein écran -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JP'App Jeunes">
+
+<!-- iOS : écrans de démarrage (splash) par taille d'appareil -->
+<link rel="apple-touch-startup-image" href="splash/apple-splash-640-1136.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-750-1334.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1125-2436.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1170-2532.png" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1179-2556.png" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1206-2622.png" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1242-2208.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-828-1792.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1242-2688.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1284-2778.png" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1290-2796.png" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1320-2868.png" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1536-2048.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-2048-2732.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+
+<!-- React + ReactDOM servis en LOCAL : le dc-runtime les détecte (window.React /
+     window.ReactDOM déjà présents) et n'appelle donc jamais de CDN externe.
+     => zéro dépendance réseau, fonctionne 100% hors ligne. -->
+<script defer src="assets/react.production.min.js"></script>
+<script defer src="assets/react-dom.production.min.js"></script>
+
+<!-- Runtime « dc » (moteur de rendu du composant déclaratif) -->
+<script defer src="assets/dc-runtime.js"></script>
+
+<!-- Enregistrement automatique du Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      // Au 1er lancement il n'y a pas encore de contrôleur : on ne rechargera
+      // QUE lors d'une vraie mise à jour (évite un reload inutile à l'install).
+      var hadController = !!navigator.serviceWorker.controller;
+      var refreshed = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (refreshed || !hadController) return;
+        refreshed = true;
+        window.location.reload();               // applique la nouvelle version
+      });
+      navigator.serviceWorker.register('service-worker.js').catch(function (err) {
+        console.warn('[PWA] Service Worker non enregistré :', err);
+      });
+    });
+  }
+</script>
+</head>
+<body>
+
+
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e1a">
+<style>@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/696812ba-9241-4847-8bc9-3a4a7284fa51.woff2") format('woff2');
+  unicode-range: U+20-7e, U+a5, U+ab, U+b0, U+b7, U+bb, U+c0, U+c7-c9, U+db, U+e0, U+e2, U+e7-ea, U+ee-ef, U+f4, U+f9, U+fb, U+12b, U+14c-14d, U+153, U+16b, U+20ac, U+2190, U+2192, U+2194, U+21ba, U+2212, U+23f0-23f1, U+25cf, U+2600, U+2668, U+2696, U+26e9, U+2705, U+2708-2709, U+2713, U+2728, U+2922, U+2b50, U+3042, U+3044, U+3046, U+3048, U+304a-304f, U+3051, U+3053-3057, U+3059, U+305b, U+305d, U+305f-3061, U+3063, U+3066-306b, U+306f-3070, U+307e-307f, U+3082, U+3088-308a, U+308c, U+308f, U+3092-3093, U+30a2, U+30a4, U+30ab, U+30ae-30af, U+30b5, U+30b8-30b9, U+30c6, U+30c8-30c9, U+30d1, U+30d7, U+30db, U+30e1, U+30e3, U+30e6, U+30e9, U+30eb-30ed, U+30f3, U+30fb-30fc, U+4e08, U+4e2d, U+4e3c, U+4f1a, U+5149, U+5199, U+52a9, U+533a, U+5343, U+53f8, U+56de, U+56e3, U+57ce, U+591a, U+5927, U+592b, U+597d, U+59cb, U+5b50, U+5b87, U+5bb6, U+5bbf, U+5bff, U+5cf6, U+5ddd, U+5fc3, U+5fcd, U+62b9, U+64ae, U+65b0, U+65c5, U+65e5, U+66ae, U+6771, U+6c34, U+6dc0, U+6e0b, U+6e2f, U+713c, U+725b, U+767a, U+771f, U+7a7a, U+7af9, U+7ba1, U+8089, U+82f1, U+8336, U+88c5, U+8a08, U+8a71, U+8a9e, U+8ee2, U+8ff7, U+9053, U+91cc, U+91ce, U+962a, U+96f7, U+96fb, U+9858, U+98df, U+9905, U+99c5, U+9e7f, U+fe0f, U+ff01, U+ff1f, U+1f198, U+1f1eb, U+1f1ef, U+1f1f5, U+1f1f7, U+1f300, U+1f303, U+1f305, U+1f30c, U+1f319, U+1f321, U+1f33f, U+1f348, U+1f353, U+1f359-1f35c, U+1f361-1f363, U+1f371-1f372, U+1f375, U+1f38b-1f38c, U+1f392, U+1f3a4, U+1f3ab, U+1f3c6, U+1f3d9, U+1f3e0, U+1f3e5, U+1f3e7, U+1f3ea, U+1f3ee-1f3ef, U+1f415, U+1f419, U+1f449, U+1f458, U+1f45f, U+1f465, U+1f48a, U+1f49b, U+1f4a1, U+1f4a7, U+1f4b3-1f4b4, U+1f4c5, U+1f4cb, U+1f4cd, U+1f4da, U+1f4de, U+1f4f1, U+1f4f5-1f4f6, U+1f50a, U+1f50d, U+1f51e, U+1f522, U+1f525, U+1f5c2, U+1f5d1, U+1f5e3, U+1f5fb, U+1f5fe, U+1f645, U+1f647, U+1f64f, U+1f684-1f685, U+1f687, U+1f689, U+1f68c, U+1f691, U+1f693-1f695, U+1f6a1, U+1f6a6, U+1f6a8, U+1f6aa-1f6ab, U+1f6b6, U+1f6c1, U+1f6cd, U+1f6cf, U+1f6eb-1f6ec, U+1f916, U+1f927, U+1f92b, U+1f947, U+1f950, U+1f95e, U+1f962, U+1f975, U+1f977, U+1f98c, U+1f9a2, U+1f9c1-1f9c2, U+1f9d8, U+1f9ee, U+1f9f3-1f9f4, U+1fa99, U+1faaa;
+}
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/13a6213a-a18b-4568-8d48-ae743a2f90d8.woff2") format('woff2');
+  unicode-range: U+20-7e, U+a5, U+ab, U+b0, U+b7, U+bb, U+c0, U+c7-c9, U+db, U+e0, U+e2, U+e7-ea, U+ee-ef, U+f4, U+f9, U+fb, U+12b, U+14c-14d, U+153, U+16b, U+20ac, U+2190, U+2192, U+2194, U+21ba, U+2212, U+23f0-23f1, U+25cf, U+2600, U+2668, U+2696, U+26e9, U+2705, U+2708-2709, U+2713, U+2728, U+2922, U+2b50, U+3042, U+3044, U+3046, U+3048, U+304a-304f, U+3051, U+3053-3057, U+3059, U+305b, U+305d, U+305f-3061, U+3063, U+3066-306b, U+306f-3070, U+307e-307f, U+3082, U+3088-308a, U+308c, U+308f, U+3092-3093, U+30a2, U+30a4, U+30ab, U+30ae-30af, U+30b5, U+30b8-30b9, U+30c6, U+30c8-30c9, U+30d1, U+30d7, U+30db, U+30e1, U+30e3, U+30e6, U+30e9, U+30eb-30ed, U+30f3, U+30fb-30fc, U+4e08, U+4e2d, U+4e3c, U+4f1a, U+5149, U+5199, U+52a9, U+533a, U+5343, U+53f8, U+56de, U+56e3, U+57ce, U+591a, U+5927, U+592b, U+597d, U+59cb, U+5b50, U+5b87, U+5bb6, U+5bbf, U+5bff, U+5cf6, U+5ddd, U+5fc3, U+5fcd, U+62b9, U+64ae, U+65b0, U+65c5, U+65e5, U+66ae, U+6771, U+6c34, U+6dc0, U+6e0b, U+6e2f, U+713c, U+725b, U+767a, U+771f, U+7a7a, U+7af9, U+7ba1, U+8089, U+82f1, U+8336, U+88c5, U+8a08, U+8a71, U+8a9e, U+8ee2, U+8ff7, U+9053, U+91cc, U+91ce, U+962a, U+96f7, U+96fb, U+9858, U+98df, U+9905, U+99c5, U+9e7f, U+fe0f, U+ff01, U+ff1f, U+1f198, U+1f1eb, U+1f1ef, U+1f1f5, U+1f1f7, U+1f300, U+1f303, U+1f305, U+1f30c, U+1f319, U+1f321, U+1f33f, U+1f348, U+1f353, U+1f359-1f35c, U+1f361-1f363, U+1f371-1f372, U+1f375, U+1f38b-1f38c, U+1f392, U+1f3a4, U+1f3ab, U+1f3c6, U+1f3d9, U+1f3e0, U+1f3e5, U+1f3e7, U+1f3ea, U+1f3ee-1f3ef, U+1f415, U+1f419, U+1f449, U+1f458, U+1f45f, U+1f465, U+1f48a, U+1f49b, U+1f4a1, U+1f4a7, U+1f4b3-1f4b4, U+1f4c5, U+1f4cb, U+1f4cd, U+1f4da, U+1f4de, U+1f4f1, U+1f4f5-1f4f6, U+1f50a, U+1f50d, U+1f51e, U+1f522, U+1f525, U+1f5c2, U+1f5d1, U+1f5e3, U+1f5fb, U+1f5fe, U+1f645, U+1f647, U+1f64f, U+1f684-1f685, U+1f687, U+1f689, U+1f68c, U+1f691, U+1f693-1f695, U+1f6a1, U+1f6a6, U+1f6a8, U+1f6aa-1f6ab, U+1f6b6, U+1f6c1, U+1f6cd, U+1f6cf, U+1f6eb-1f6ec, U+1f916, U+1f927, U+1f92b, U+1f947, U+1f950, U+1f95e, U+1f962, U+1f975, U+1f977, U+1f98c, U+1f9a2, U+1f9c1-1f9c2, U+1f9d8, U+1f9ee, U+1f9f3-1f9f4, U+1fa99, U+1faaa;
+}
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("fonts/8fd0ec6e-e2b4-4c96-8b36-ba5212bdb699.woff2") format('woff2');
+  unicode-range: U+20-7e, U+a5, U+ab, U+b0, U+b7, U+bb, U+c0, U+c7-c9, U+db, U+e0, U+e2, U+e7-ea, U+ee-ef, U+f4, U+f9, U+fb, U+12b, U+14c-14d, U+153, U+16b, U+20ac, U+2190, U+2192, U+2194, U+21ba, U+2212, U+23f0-23f1, U+25cf, U+2600, U+2668, U+2696, U+26e9, U+2705, U+2708-2709, U+2713, U+2728, U+2922, U+2b50, U+3042, U+3044, U+3046, U+3048, U+304a-304f, U+3051, U+3053-3057, U+3059, U+305b, U+305d, U+305f-3061, U+3063, U+3066-306b, U+306f-3070, U+307e-307f, U+3082, U+3088-308a, U+308c, U+308f, U+3092-3093, U+30a2, U+30a4, U+30ab, U+30ae-30af, U+30b5, U+30b8-30b9, U+30c6, U+30c8-30c9, U+30d1, U+30d7, U+30db, U+30e1, U+30e3, U+30e6, U+30e9, U+30eb-30ed, U+30f3, U+30fb-30fc, U+4e08, U+4e2d, U+4e3c, U+4f1a, U+5149, U+5199, U+52a9, U+533a, U+5343, U+53f8, U+56de, U+56e3, U+57ce, U+591a, U+5927, U+592b, U+597d, U+59cb, U+5b50, U+5b87, U+5bb6, U+5bbf, U+5bff, U+5cf6, U+5ddd, U+5fc3, U+5fcd, U+62b9, U+64ae, U+65b0, U+65c5, U+65e5, U+66ae, U+6771, U+6c34, U+6dc0, U+6e0b, U+6e2f, U+713c, U+725b, U+767a, U+771f, U+7a7a, U+7af9, U+7ba1, U+8089, U+82f1, U+8336, U+88c5, U+8a08, U+8a71, U+8a9e, U+8ee2, U+8ff7, U+9053, U+91cc, U+91ce, U+962a, U+96f7, U+96fb, U+9858, U+98df, U+9905, U+99c5, U+9e7f, U+fe0f, U+ff01, U+ff1f, U+1f198, U+1f1eb, U+1f1ef, U+1f1f5, U+1f1f7, U+1f300, U+1f303, U+1f305, U+1f30c, U+1f319, U+1f321, U+1f33f, U+1f348, U+1f353, U+1f359-1f35c, U+1f361-1f363, U+1f371-1f372, U+1f375, U+1f38b-1f38c, U+1f392, U+1f3a4, U+1f3ab, U+1f3c6, U+1f3d9, U+1f3e0, U+1f3e5, U+1f3e7, U+1f3ea, U+1f3ee-1f3ef, U+1f415, U+1f419, U+1f449, U+1f458, U+1f45f, U+1f465, U+1f48a, U+1f49b, U+1f4a1, U+1f4a7, U+1f4b3-1f4b4, U+1f4c5, U+1f4cb, U+1f4cd, U+1f4da, U+1f4de, U+1f4f1, U+1f4f5-1f4f6, U+1f50a, U+1f50d, U+1f51e, U+1f522, U+1f525, U+1f5c2, U+1f5d1, U+1f5e3, U+1f5fb, U+1f5fe, U+1f645, U+1f647, U+1f64f, U+1f684-1f685, U+1f687, U+1f689, U+1f68c, U+1f691, U+1f693-1f695, U+1f6a1, U+1f6a6, U+1f6a8, U+1f6aa-1f6ab, U+1f6b6, U+1f6c1, U+1f6cd, U+1f6cf, U+1f6eb-1f6ec, U+1f916, U+1f927, U+1f92b, U+1f947, U+1f950, U+1f95e, U+1f962, U+1f975, U+1f977, U+1f98c, U+1f9a2, U+1f9c1-1f9c2, U+1f9d8, U+1f9ee, U+1f9f3-1f9f4, U+1fa99, U+1faaa;
+}
+</style>
+<style>
+html,body{margin:0;padding:0;background:#0b0e1a;}
+body{font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN','Hiragino Sans',-apple-system,'Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;}
+*{box-sizing:border-box;}
+*::-webkit-scrollbar{display:none;}
+*{scrollbar-width:none;}
+input,button,textarea{font-family:inherit;}
+a{text-decoration:none;}
+@keyframes mjFade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes mjPop{0%{transform:scale(.7);opacity:0;}70%{transform:scale(1.05);}100%{transform:scale(1);opacity:1;}}
+@keyframes mjGlow{0%,100%{opacity:.5;}50%{opacity:1;}}
+@keyframes mjDrift{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+</style>
+</helmet>
+
+<div style="min-height:100dvh;background:radial-gradient(1100px 460px at 88% -6%, rgba(255,90,78,.17), transparent 62%), radial-gradient(800px 400px at -12% 4%, rgba(245,184,64,.09), transparent 55%), #0b0e1a;color:#f6f0e4;font-size:15px;line-height:1.55;">
+<div style="max-width:540px;margin:0 auto;padding:0 0 108px;">
+
+  <!-- ===== BARRE HAUTE ===== -->
+  <div style="position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:11px;padding:10px 16px;background:rgba(11,14,26,.84);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);">
+    <div style="width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 36% 34%, #ff7a5e, #e8483c 72%);box-shadow:0 0 16px rgba(232,72,60,.6);flex:0 0 auto;"></div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-weight:900;font-size:13.5px;letter-spacing:.13em;">JAPAN'APP 2026</div>
+      <div style="font-size:9.5px;color:#a8b0c9;letter-spacing:.09em;">VERSION JEUNES - SÉJOUR MADE IN JAPAN DE VERDIE HELLO</div>
+    </div>
+    <div style="text-align:right;flex:0 0 auto;">
+      <div style="font-size:16px;font-weight:900;color:#f5b840;font-variant-numeric:tabular-nums;line-height:1.15;">{{ jpClock }}</div>
+      <div style="font-size:9px;color:#a8b0c9;letter-spacing:.12em;">HEURE AU JAPON</div>
+    </div>
+  </div>
+
+  <!-- ===== VUE JOURS ===== -->
+  <sc-if value="{{ vJours }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Jours" style="padding:14px 14px 0;">
+
+    <div style="position:relative;overflow:hidden;border-radius:24px;padding:20px 18px 18px;background:radial-gradient(300px 190px at 90% -34%, rgba(232,72,60,.5), transparent 66%), radial-gradient(210px 150px at -10% 112%, rgba(245,184,64,.2), transparent 62%), #151a2d;border:1px solid #252c48;">
+      <div style="position:absolute;right:-28px;top:-46px;width:148px;height:148px;border-radius:50%;background:radial-gradient(circle at 40% 38%, #ff6a55, #e8483c 70%);opacity:.9;"></div>
+      <div style="position:absolute;right:6px;bottom:-30px;font-size:120px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">旅</div>
+      <div style="position:relative;">
+        <div style="font-size:10.5px;font-weight:900;letter-spacing:.26em;color:#f5b840;">ETE 2026 - TOKYO → KYOTO → OSAKA</div>
+        <div style="font-size:34px;font-weight:900;line-height:1.08;margin-top:4px;">Japan'App 2026</div>
+        <div style="font-size:11px;letter-spacing:.42em;color:#a8b0c9;margin-top:5px;">メイド・イン・ジャパン</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:13px;flex-wrap:wrap;">
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#f5b840;border:1px solid rgba(245,184,64,.45);border-radius:30px;padding:4px 12px;background:rgba(245,184,64,.08);">{{ statusChip }}</span>
+          <span style="font-size:11.5px;color:#a8b0c9;">18 juillet - 2 août - 16 jours</span>
+        </div>
+        <div style="display:flex;gap:3px;margin-top:14px;">
+          <sc-for list="{{ progressSegs }}" as="sg" hint-placeholder-count="16">
+            <div style="{{ sg.style }}"></div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:7px;margin:14px 0 2px;overflow-x:auto;padding:2px;">
+      <sc-for list="{{ cityChips }}" as="cc" hint-placeholder-count="4">
+        <button onclick="{{ cc.go }}" style="{{ cc.style }}">{{ cc.name }}</button>
+      </sc-for>
+    </div>
+
+    <div ref="{{ setRail }}" style="overflow-x:auto;margin:0 -14px;padding:12px 14px 6px;">
+      <div style="position:relative;display:flex;min-width:max-content;padding:0 8px;">
+        <div style="position:absolute;left:28px;right:28px;top:26px;height:4px;background:#252c48;border-radius:2px;"></div>
+        <sc-for list="{{ railStops }}" as="st" hint-placeholder-count="16">
+          <button onclick="{{ st.go }}" style="position:relative;z-index:1;width:62px;background:none;border:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;">
+            <span style="{{ st.dot }}">{{ st.num }}</span>
+            <span style="{{ st.lab }}">{{ st.date }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div ontouchstart="{{ tS }}" ontouchend="{{ tE }}" style="background:#151a2d;border:1px solid #252c48;border-radius:24px;overflow:hidden;animation:mjFade .3s ease;">
+      <div style="position:relative;height:196px;overflow:hidden;">
+        <div style="{{ dayFallback }}">
+          <span style="font-size:96px;font-weight:900;opacity:.2;animation:mjDrift 5s ease-in-out infinite;">{{ dayKanji }}</span>
+        </div>
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background-image:url('{{ dayImg }}');background-size:cover;background-position:center;"></div>
+
+        </sc-if>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,14,26,.05) 30%, rgba(11,14,26,.82) 82%, #151a2d 100%);"></div>
+        <div style="position:absolute;left:16px;right:16px;bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="{{ cityPill }}">{{ dayCityName }}</span>
+            <span style="font-size:11.5px;color:rgba(246,240,228,.85);font-weight:700;">{{ dayLab }} 2026</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-top:2px;">
+            <span style="font-size:38px;font-weight:900;color:#f5b840;line-height:1;text-shadow:0 2px 12px rgba(0,0,0,.5);">{{ dayNum }}</span>
+            <span style="font-size:22px;font-weight:900;line-height:1.15;text-shadow:0 2px 10px rgba(0,0,0,.6);">{{ dayTitle }}</span>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ hasEv }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:14px 16px 0;border-radius:15px;padding:12px 14px;background:linear-gradient(135deg, rgba(232,72,60,.17), rgba(245,184,64,.08));border:1px solid rgba(232,72,60,.45);">
+          <div style="font-size:11px;font-weight:900;letter-spacing:.14em;color:#ff8d84;text-transform:uppercase;margin-bottom:4px;">{{ evT }}</div>
+          <div style="font-size:13.5px;">{{ evP }}</div>
+          <sc-if value="{{ evHasLink }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ evU }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:#8ab4ff;background:rgba(96,140,255,.12);border:1px solid rgba(96,140,255,.4);border-radius:20px;padding:4px 11px;margin-top:8px;">📍 {{ evLoc }}</a>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <div style="padding:14px 16px 4px;">
+        <sc-for list="{{ daySlots }}" as="sl" hint-placeholder-count="3">
+          <div style="display:flex;gap:12px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#1c2340;border:1px solid #2b3357;display:flex;align-items:center;justify-content:center;font-size:17px;">{{ sl.ic }}</div>
+              <div style="flex:1;width:2px;background:linear-gradient(180deg,#2b3357,transparent);margin:4px 0 2px;"></div>
+            </div>
+            <div style="flex:1;min-width:0;padding-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span style="font-size:10.5px;font-weight:900;letter-spacing:.18em;color:#f5b840;">{{ sl.lb }}</span>
+                <sc-if value="{{ sl.bd }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:9.5px;font-weight:900;letter-spacing:.06em;padding:2px 9px;border-radius:20px;background:rgba(95,202,143,.15);color:#8fdcaa;border:1px solid rgba(95,202,143,.4);">{{ sl.bd }}</span>
+                </sc-if>
+              </div>
+              <div style="font-size:14.5px;margin-top:3px;">{{ sl.tx }}</div>
+              <sc-if value="{{ sl.hasLinks }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+                  <sc-for list="{{ sl.links }}" as="lk" hint-placeholder-count="1">
+                    <a href="{{ lk.u }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:#8ab4ff;background:rgba(96,140,255,.1);border:1px solid rgba(96,140,255,.35);border-radius:20px;padding:4px 11px;">📍 {{ lk.t }}</a>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ hasRestos }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:2px 16px 6px;">
+          <div style="font-size:10.5px;font-weight:900;letter-spacing:.18em;color:#f5b840;margin-bottom:8px;">🍜 A GOUTER DANS LE COIN</div>
+          <div style="display:flex;gap:9px;overflow-x:auto;margin:0 -16px;padding:2px 16px 8px;">
+            <sc-for list="{{ dayRestos }}" as="rr" hint-placeholder-count="3">
+              <div style="flex:0 0 auto;width:200px;background:#1b2136;border:1px solid #2b3357;border-radius:14px;padding:11px 13px;">
+                <div style="font-size:13.5px;font-weight:900;line-height:1.3;">{{ rr.n }}</div>
+                <div style="font-size:12px;color:#a8b0c9;margin-top:3px;">{{ rr.d }}</div>
+                <sc-if value="{{ rr.hasU }}" hint-placeholder-val="{{ false }}">
+                  <a href="{{ rr.u }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#8ab4ff;margin-top:7px;">📍 Voir sur la carte</a>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="padding:6px 16px 2px;">
+        <div style="font-size:10.5px;font-weight:900;letter-spacing:.18em;color:#f5b840;margin-bottom:4px;">🏮 LES TIPS DU JOUR</div>
+        <sc-for list="{{ dayTips }}" as="tp" hint-placeholder-count="3">
+          <div style="display:flex;gap:9px;padding:7px 0;border-bottom:1px dashed #252c48;font-size:13.5px;">
+            <span style="flex:0 0 auto;">🏮</span>
+            <span>{{ tp.t }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:11px;margin:12px 16px 14px;background:#1b2136;border:1px solid #2b3357;border-radius:15px;padding:11px 13px;">
+        <span style="font-size:21px;">🛏️</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13.5px;font-weight:900;">{{ hostelN }}</div>
+          <div style="font-size:11.5px;color:#a8b0c9;">{{ hostelD }}</div>
+        </div>
+        <sc-if value="{{ hostelHasU }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ hostelU }}" target="_blank" rel="noopener" style="flex:0 0 auto;font-size:11.5px;font-weight:700;color:#8ab4ff;background:rgba(96,140,255,.1);border:1px solid rgba(96,140,255,.35);border-radius:20px;padding:5px 11px;">📍 Carte</a>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;">
+      <button onclick="{{ prevDay }}" style="{{ prevStyle }}">← Jour d'avant</button>
+      <span style="font-size:11.5px;color:#a8b0c9;font-weight:700;">{{ pagerLab }}</span>
+      <button onclick="{{ nextDay }}" style="{{ nextStyle }}">Jour d'après →</button>
+    </div>
+    <div style="text-align:center;font-size:10.5px;color:#5d6580;margin-top:8px;">Astuce : balaie la carte du jour vers la gauche ou la droite 👉</div>
+  </div>
+  </sc-if>
+
+  <!-- ===== VUE JAPON ===== -->
+  <sc-if value="{{ vJapon }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Japon" style="padding:16px 14px 0;">
+    <div style="position:relative;margin-bottom:14px;">
+      <div style="position:absolute;right:0;top:-18px;font-size:84px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">心</div>
+      <div style="font-size:23px;font-weight:900;">⛩️ Vivre le Japon</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-top:2px;">Les codes du pays, tes missions, et le japonais qui fait sourire les locaux.</div>
+    </div>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:8px;">⭐ Les 5 règles d'or du groupe</div>
+      <sc-for list="{{ goldRules }}" as="gr" hint-placeholder-count="5">
+        <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px dashed #252c48;">
+          <span style="flex:0 0 auto;font-size:16px;">{{ gr.ic }}</span>
+          <span style="font-size:13.5px;"><b>{{ gr.b }}</b> {{ gr.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-for list="{{ accList }}" as="ac" hint-placeholder-count="3">
+      <div style="background:#151a2d;border:1px solid #252c48;border-radius:16px;margin-bottom:10px;overflow:hidden;">
+        <button onclick="{{ ac.go }}" style="width:100%;display:flex;align-items:center;gap:10px;background:none;border:none;color:#f6f0e4;padding:13px 15px;font-size:14.5px;font-weight:900;cursor:pointer;text-align:left;">
+          <span style="flex:1;">{{ ac.t }}</span>
+          <span style="color:#f5b840;font-size:18px;font-weight:500;">{{ ac.mark }}</span>
+        </button>
+        <sc-if value="{{ ac.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 15px 13px;animation:mjFade .25s ease;">
+            <sc-for list="{{ ac.paras }}" as="pp" hint-placeholder-count="2">
+              <div style="display:flex;gap:9px;font-size:13.5px;padding:6px 0;">
+                <span style="flex:0 0 auto;color:#f5b840;">●</span>
+                <span><b>{{ pp.b }}</b> {{ pp.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+
+    <div style="background:linear-gradient(135deg, rgba(232,72,60,.14), rgba(245,184,64,.06)), #151a2d;border:1px solid rgba(232,72,60,.5);border-radius:20px;padding:15px 16px;margin:14px 0 12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:2px;">🆘 Si tu ne retrouves pas le groupe</div>
+      <div style="font-size:12px;color:#a8b0c9;margin-bottom:9px;">Ça n'arrivera pas. Mais au cas où, voilà le plan.</div>
+      <sc-for list="{{ sosSteps }}" as="ss" hint-placeholder-count="4">
+        <div style="display:flex;gap:10px;padding:6px 0;">
+          <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:rgba(232,72,60,.25);border:1px solid rgba(232,72,60,.6);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#ff9d94;">{{ ss.n }}</span>
+          <span style="font-size:13.5px;">{{ ss.t }}</span>
+        </div>
+      </sc-for>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;">
+        <sc-for list="{{ taxiBtns }}" as="tb" hint-placeholder-count="3">
+          <button onclick="{{ tb.go }}" style="background:#1b2136;border:1px solid #2b3357;border-radius:20px;color:#f6f0e4;font-size:11.5px;font-weight:700;padding:6px 12px;cursor:pointer;">🚕 {{ tb.t }}</button>
+        </sc-for>
+      </div>
+      <div style="margin-top:12px;border-radius:14px;padding:11px 13px;background:rgba(245,184,64,.1);border:1px solid rgba(245,184,64,.55);">
+        <div style="font-size:12px;font-weight:900;letter-spacing:.08em;color:#f5b840;margin-bottom:3px;">⭐ LA RÈGLE PRINCIPALE</div>
+        <div style="font-size:13.5px;">On reste <b>toujours avec le groupe</b>. En quartier libre : on reste par groupes de <b>3 minimum</b> et on s'assure de toujours pouvoir être proches des anims.</div>
+      </div>
+    </div>
+
+    <sc-if value="{{ showMissions }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="flex:1;">
+            <div style="font-size:15.5px;font-weight:900;">🥷 Passeport du samouraï</div>
+            <div style="font-size:12px;color:#a8b0c9;">{{ missionSub }}</div>
+          </div>
+          <div style="flex:0 0 auto;font-size:19px;font-weight:900;color:#f5b840;">{{ missionScore }}</div>
+        </div>
+        <div style="height:8px;background:#1b2136;border-radius:6px;margin:11px 0 12px;overflow:hidden;">
+          <div style="{{ missionBar }}"></div>
+        </div>
+        <sc-for list="{{ missionList }}" as="ms" hint-placeholder-count="6">
+          <button onclick="{{ ms.go }}" style="width:100%;display:flex;align-items:center;gap:10px;background:none;border:none;border-bottom:1px dashed #252c48;padding:8px 2px;cursor:pointer;text-align:left;">
+            <span style="{{ ms.box }}">{{ ms.mark }}</span>
+            <span style="{{ ms.txt }}">{{ ms.t }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+        <div style="font-size:15.5px;font-weight:900;">🎒 Check-valise du voyageur</div>
+        <div style="font-size:12px;color:#a8b0c9;margin-bottom:8px;">Coche avant le départ. Ton toi du 19 juillet te remerciera.</div>
+        <sc-for list="{{ packList }}" as="pk" hint-placeholder-count="6">
+          <button onclick="{{ pk.go }}" style="width:100%;display:flex;align-items:center;gap:10px;background:none;border:none;border-bottom:1px dashed #252c48;padding:8px 2px;cursor:pointer;text-align:left;">
+            <span style="{{ pk.box }}">{{ pk.mark }}</span>
+            <span style="{{ pk.txt }}">{{ pk.t }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <div style="position:relative;margin:20px 0 10px;">
+      <div style="position:absolute;right:0;top:-14px;font-size:74px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">語</div>
+      <div style="font-size:21px;font-weight:900;">🗣️ Ton kit de japonais</div>
+      <div style="font-size:12.5px;color:#a8b0c9;margin-top:2px;">Touche une phrase pour l'afficher en GRAND et la montrer à un local.</div>
+    </div>
+    <input value="{{ phraseQ }}" onchange="{{ onQ }}" placeholder="🔍 Cherche : merci, gare, allergie..." style="width:100%;background:#151a2d;border:1px solid #252c48;border-radius:14px;color:#f6f0e4;font-size:14px;padding:11px 14px;outline:none;margin-bottom:9px;">
+    <div style="display:flex;gap:7px;overflow-x:auto;padding:2px;margin-bottom:10px;">
+      <sc-for list="{{ catChips }}" as="ch" hint-placeholder-count="5">
+        <button onclick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.t }}</button>
+      </sc-for>
+    </div>
+    <sc-for list="{{ phraseList }}" as="ph" hint-placeholder-count="6">
+      <button onclick="{{ ph.go }}" style="width:100%;text-align:left;background:#151a2d;border:1px solid #252c48;border-radius:15px;padding:11px 14px;margin-bottom:8px;cursor:pointer;color:#f6f0e4;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="flex:1;font-size:11px;color:#f5b840;font-weight:900;letter-spacing:.06em;text-transform:uppercase;">{{ ph.fr }}</span>
+          <span style="font-size:12px;color:#5d6580;">⤢</span>
+        </div>
+        <div style="font-size:20px;font-weight:900;margin:2px 0 1px;">{{ ph.jp }}</div>
+        <div style="font-size:12.5px;color:#a8b0c9;">{{ ph.ro }} <span style="color:#8fdcaa;font-style:italic;">- {{ ph.ph }}</span></div>
+      </button>
+    </sc-for>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin:12px 0;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:9px;">🔢 Compter comme un pro</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;">
+        <sc-for list="{{ numbers }}" as="nb" hint-placeholder-count="10">
+          <div style="background:#1b2136;border:1px solid #2b3357;border-radius:11px;text-align:center;padding:8px 2px;">
+            <div style="font-size:17px;font-weight:900;">{{ nb.n }}</div>
+            <div style="font-size:10.5px;color:#a8b0c9;">{{ nb.r }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== VUE BOUGER ===== -->
+  <sc-if value="{{ vBouger }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Bouger" style="padding:16px 14px 0;">
+    <div style="position:relative;margin-bottom:14px;">
+      <div style="position:absolute;right:0;top:-18px;font-size:84px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">駅</div>
+      <div style="font-size:23px;font-weight:900;">🚄 Se déplacer</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-top:2px;">Métro, trains, Shinkansen : le Japon se traverse en badgeant.</div>
+    </div>
+
+    <div style="background:linear-gradient(135deg, rgba(95,202,143,.1), transparent 60%), #151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:3px;">💳 Ta carte magique</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-bottom:9px;">SUICA à Tokyo, ICOCA à Osaka : même pouvoir, badge et passe.</div>
+      <sc-for list="{{ cardRules }}" as="cr" hint-placeholder-count="4">
+        <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px dashed #252c48;font-size:13.5px;">
+          <span style="flex:0 0 auto;">{{ cr.ic }}</span>
+          <span>{{ cr.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:9px;">🚉 Nos lignes fétiches</div>
+      <sc-for list="{{ lines }}" as="ln" hint-placeholder-count="3">
+        <div style="display:flex;gap:11px;padding:8px 0;border-bottom:1px dashed #252c48;">
+          <span style="{{ ln.pill }}">{{ ln.city }}</span>
+          <span style="font-size:13.5px;flex:1;"><b>{{ ln.b }}</b> {{ ln.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:3px;">🚅 Le Shinkansen, mode d'emploi</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-bottom:9px;">Vendredi 24 juillet : Tokyo → Kyoto à 285 km/h.</div>
+      <sc-for list="{{ shinkTips }}" as="sk" hint-placeholder-count="4">
+        <div style="display:flex;gap:9px;padding:6px 0;font-size:13.5px;">
+          <span style="flex:0 0 auto;">{{ sk.ic }}</span>
+          <span>{{ sk.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:9px;">🤫 Les règles d'or du métro</div>
+      <sc-for list="{{ metroRules }}" as="mr" hint-placeholder-count="5">
+        <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px dashed #252c48;font-size:13.5px;">
+          <span style="flex:0 0 auto;">{{ mr.ic }}</span>
+          <span>{{ mr.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== VUE MANGER ===== -->
+  <sc-if value="{{ vManger }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Manger" style="padding:16px 14px 0;">
+    <div style="position:relative;margin-bottom:14px;">
+      <div style="position:absolute;right:0;top:-18px;font-size:84px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">食</div>
+      <div style="font-size:23px;font-weight:900;">🍜 Manger japonais</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-top:2px;">La check-list des saveurs à cocher pendant le séjour.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;">
+      <sc-for list="{{ foods }}" as="fd" hint-placeholder-count="8">
+        <button onclick="{{ fd.go }}" style="{{ fd.style }}">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <span style="font-size:21px;">{{ fd.ic }}</span>
+            <span style="{{ fd.check }}">{{ fd.mark }}</span>
+          </div>
+          <div style="font-size:14px;font-weight:900;margin-top:6px;">{{ fd.n }} <span style="font-size:11px;color:#a8b0c9;font-weight:500;">{{ fd.jp }}</span></div>
+          <div style="font-size:11.5px;color:#a8b0c9;margin-top:2px;">{{ fd.d }}</div>
+        </button>
+      </sc-for>
+    </div>
+    <div style="text-align:center;font-size:11.5px;color:#f5b840;font-weight:700;margin:-4px 0 14px;">{{ foodScore }}</div>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:9px;">🎫 Commander sans parler japonais</div>
+      <sc-for list="{{ orderSteps }}" as="os" hint-placeholder-count="3">
+        <div style="display:flex;gap:10px;padding:7px 0;">
+          <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:rgba(245,184,64,.15);border:1px solid rgba(245,184,64,.5);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#f5b840;">{{ os.n }}</span>
+          <span style="font-size:13.5px;">{{ os.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:9px;">🥢 L'étiquette à table</div>
+      <sc-for list="{{ tableRules }}" as="tr" hint-placeholder-count="5">
+        <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px dashed #252c48;font-size:13.5px;">
+          <span style="flex:0 0 auto;">{{ tr.ic }}</span>
+          <span>{{ tr.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="background:linear-gradient(135deg, rgba(255,160,60,.1), transparent 60%), #151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:3px;">🏪 Le konbini, ton meilleur ami</div>
+      <div style="font-size:13.5px;">7-Eleven, Lawson, FamilyMart : ouverts 24h/24, à chaque coin de rue, et la nourriture y est vraiment bonne. Bento réchauffé sur place, onigiri, sandwichs moelleux, boissons glacées : le QG officiel du groupe.</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-top:8px;">👥 Aux repas libres, on mange en sous-groupes avec un anim : reste avec le tien, c'est lui qui gère.</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== VUE DODO ===== -->
+  <sc-if value="{{ vDodo }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Dodo" style="padding:16px 14px 0;">
+    <div style="position:relative;margin-bottom:14px;">
+      <div style="position:absolute;right:0;top:-18px;font-size:84px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">宿</div>
+      <div style="font-size:23px;font-weight:900;">🛏️ Nos trois maisons</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-top:2px;">Trois auberges, trois ambiances. On y est des invités : on soigne le style.</div>
+    </div>
+
+    <sc-for list="{{ hostels }}" as="ho" hint-placeholder-count="3">
+      <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;overflow:hidden;margin-bottom:12px;">
+        <div style="{{ ho.head }}">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="{{ ho.pill }}">{{ ho.city }}</span>
+            <span style="font-size:11.5px;color:rgba(246,240,228,.8);font-weight:700;">{{ ho.dates }}</span>
+          </div>
+          <div style="font-size:19px;font-weight:900;margin-top:3px;">{{ ho.n }}</div>
+          <div style="font-size:12.5px;color:#a8b0c9;">{{ ho.jp }}</div>
+        </div>
+        <div style="padding:12px 16px 6px;">
+          <div style="font-size:13.5px;">{{ ho.d }}</div>
+          <div style="margin-top:8px;">
+            <sc-for list="{{ ho.feats }}" as="hf" hint-placeholder-count="4">
+              <div style="display:flex;gap:9px;padding:5px 0;font-size:13px;border-bottom:1px dashed #252c48;">
+                <span style="flex:0 0 auto;">{{ hf.ic }}</span>
+                <span>{{ hf.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;padding:10px 16px 14px;">
+          <a href="{{ ho.u }}" target="_blank" rel="noopener" style="flex:1;text-align:center;font-size:12.5px;font-weight:900;color:#8ab4ff;background:rgba(96,140,255,.1);border:1px solid rgba(96,140,255,.35);border-radius:13px;padding:9px 4px;">📍 Google Maps</a>
+          <button onclick="{{ ho.taxi }}" style="flex:1;font-size:12.5px;font-weight:900;color:#f5b840;background:rgba(245,184,64,.08);border:1px solid rgba(245,184,64,.45);border-radius:13px;padding:9px 4px;cursor:pointer;">🚕 Montre au taxi</button>
+        </div>
+      </div>
+    </sc-for>
+
+    <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+      <div style="font-size:15.5px;font-weight:900;margin-bottom:9px;">🧘 Les réflexes en auberge</div>
+      <sc-for list="{{ hostelRules }}" as="hr" hint-placeholder-count="4">
+        <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px dashed #252c48;font-size:13.5px;">
+          <span style="flex:0 0 auto;">{{ hr.ic }}</span>
+          <span>{{ hr.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== VUE TENUES ===== -->
+  <sc-if value="{{ vTenues }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Tenues" style="padding:16px 14px 0;">
+    <div style="position:relative;margin-bottom:14px;">
+      <div style="position:absolute;right:0;top:-18px;font-size:84px;font-weight:900;opacity:.05;line-height:1;pointer-events:none;">装</div>
+      <div style="font-size:23px;font-weight:900;">👘 Bien s'habiller</div>
+      <div style="font-size:13px;color:#a8b0c9;margin-top:2px;">Confortable, discret, respectueux : le triple combo gagnant.</div>
+    </div>
+
+    <sc-if value="{{ tenueImgOk }}" hint-placeholder-val="{{ false }}">
+      <div style="position:relative;border-radius:20px;overflow:hidden;margin-bottom:12px;height:158px;">
+        <div style="position:absolute;inset:0;background-image:url('{{ tenueImg }}');background-size:cover;background-position:center;"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg, transparent 45%, rgba(11,14,26,.85));"></div>
+        <div style="position:absolute;left:14px;bottom:10px;font-size:12.5px;font-weight:700;text-shadow:0 1px 8px rgba(0,0,0,.6);">Kimonos d'été à Kyoto</div>
+      </div>
+    </sc-if>
+
+    <div style="background:linear-gradient(135deg, rgba(245,184,64,.16), rgba(232,72,60,.07));border:1px solid rgba(245,184,64,.5);border-radius:18px;padding:13px 15px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:900;letter-spacing:.18em;color:#f5b840;margin-bottom:3px;">💡 L'IDÉE SIMPLE À RETENIR</div>
+      <div style="font-size:13.5px;">Au Japon, le mot-clé, c'est <b>discrétion</b>. Temple, onsen, teamLab ou métro : on respecte le lieu, on respecte les autres, et on évite d'en faire trop avec sa tenue ou son comportement.</div>
+    </div>
+
+    <sc-for list="{{ tenueCards }}" as="tc" hint-placeholder-count="6">
+      <div style="background:#151a2d;border:1px solid #252c48;border-radius:20px;padding:15px 16px;margin-bottom:12px;">
+        <div style="font-size:15.5px;font-weight:900;margin-bottom:7px;">{{ tc.ic }} {{ tc.t }}</div>
+        <sc-for list="{{ tc.items }}" as="it" hint-placeholder-count="3">
+          <div style="display:flex;gap:9px;font-size:13.5px;padding:6px 0;border-bottom:1px dashed #252c48;">
+            <span style="flex:0 0 auto;color:#f5b840;">●</span>
+            <span><b>{{ it.b }}</b> {{ it.t }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin:2px 0 14px;">
+      <sc-for list="{{ shopLinks }}" as="sh" hint-placeholder-count="3">
+        <a href="{{ sh.u }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:#8ab4ff;background:rgba(96,140,255,.1);border:1px solid rgba(96,140,255,.35);border-radius:20px;padding:5px 12px;">📍 {{ sh.t }}</a>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== CREDIT ===== -->
+  <div style="text-align:center;font-size:10.5px;line-height:1.7;color:#5d6580;padding:18px 22px 6px;">
+    Japan'App 2026 - guide préparé avec amour pour le groupe - été 2026 🇯🇵<br>
+    Réalisé par <b style="color:#a8b0c9;">Thomas Mouchoux</b>, à l'aide de Claude Design - licence CC-BY-SA<br>
+    Photos : Wikimedia Commons (licences CC)
+  </div>
+
+  <!-- ===== OVERLAY PHRASE GEANTE ===== -->
+  <sc-if value="{{ hasBig }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ closeBig }}" style="position:fixed;inset:0;z-index:100;background:rgba(7,9,18,.96);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px;text-align:center;animation:mjFade .2s ease;">
+      <div style="font-size:12px;font-weight:900;letter-spacing:.2em;color:#f5b840;text-transform:uppercase;">{{ bigFr }}</div>
+      <div style="font-size:46px;font-weight:900;line-height:1.3;margin:16px 0 10px;animation:mjPop .3s ease;">{{ bigJp }}</div>
+      <div style="font-size:19px;color:#a8b0c9;">{{ bigRo }}</div>
+      <div style="font-size:15px;color:#8fdcaa;font-style:italic;margin-top:5px;">se prononce : {{ bigPh }}</div>
+      <div style="display:flex;gap:9px;margin-top:26px;">
+        <button onclick="{{ speakBig }}" style="background:rgba(245,184,64,.12);border:1px solid rgba(245,184,64,.5);border-radius:26px;color:#f5b840;font-size:13.5px;font-weight:900;padding:11px 18px;cursor:pointer;">🔊 Écouter</button>
+        <button onclick="{{ copyBig }}" style="background:rgba(96,140,255,.12);border:1px solid rgba(96,140,255,.45);border-radius:26px;color:#8ab4ff;font-size:13.5px;font-weight:900;padding:11px 18px;cursor:pointer;">📋 Copier</button>
+      </div>
+      <div style="font-size:11px;color:#5d6580;margin-top:22px;">Montre l'écran à un local - touche n'importe où pour fermer</div>
+    </div>
+  </sc-if>
+
+  <!-- ===== OVERLAY TAXI ===== -->
+  <sc-if value="{{ hasAddr }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ closeAddr }}" style="position:fixed;inset:0;z-index:100;background:#f6f0e4;color:#151a2d;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px;text-align:center;animation:mjFade .2s ease;">
+      <div style="font-size:12px;font-weight:900;letter-spacing:.16em;color:#b3541e;text-transform:uppercase;">Montre cet écran 🚕🙏</div>
+      <div style="font-size:34px;font-weight:900;line-height:1.4;margin:18px 0 8px;">{{ addrJp }}</div>
+      <div style="font-size:20px;font-weight:700;color:#5a4632;">までお願いします</div>
+      <div style="font-size:13px;color:#8a7a63;margin-top:6px;">« Jusqu'à {{ addrFr }}, s'il vous plaît »</div>
+      <sc-if value="{{ addrHasSub }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:15px;color:#5a4632;margin-top:14px;background:rgba(0,0,0,.05);border-radius:14px;padding:10px 14px;">{{ addrSub }}</div>
+      </sc-if>
+      <div style="font-size:11px;color:#8a7a63;margin-top:24px;">touche n'importe où pour fermer</div>
+    </div>
+  </sc-if>
+
+  <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140"><rect width="200" height="140" fill="#0b0e1a"></rect><circle cx="100" cy="70" r="32" fill="#e8483c"></circle><text x="100" y="83" font-size="34" text-anchor="middle" fill="#f6f0e4" font-family="sans-serif" font-weight="bold">旅</text></svg></template>
+
+  <!-- ===== TOAST ===== -->
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:110;background:#f5b840;color:#151a2d;font-size:13px;font-weight:900;border-radius:24px;padding:9px 18px;box-shadow:0 6px 24px rgba(0,0,0,.4);animation:mjPop .25s ease;">{{ toast }}</div>
+  </sc-if>
+
+</div>
+
+<!-- ===== NAV BASSE ===== -->
+<div style="position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:540px;z-index:80;display:flex;background:rgba(13,16,30,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07);padding-bottom:env(safe-area-inset-bottom);">
+  <sc-for list="{{ navTabs }}" as="nt" hint-placeholder-count="5">
+    <button onclick="{{ nt.go }}" style="{{ nt.style }}">
+      <span style="font-size:21px;line-height:1;">{{ nt.ic }}</span>
+      <span style="font-size:10px;font-weight:900;letter-spacing:.04em;">{{ nt.t }}</span>
+    </button>
+  </sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;photos&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu&quot;,&quot;description&quot;:&quot;Charger les photos depuis internet (les couper rend le guide 100% hors-ligne)&quot;},&quot;missions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu&quot;,&quot;description&quot;:&quot;Afficher le passeport du samourai et la check-valise&quot;}}">
+class Component extends DCLogic {
+  state = {
+    tab: "jours", di: 0, imgErrs: {},
+    phraseQ: "", cat: "Tous", big: null, addr: null, toast: "",
+    acc: {}, missions: {}, pack: {}, foodsDone: {}, telA: "", telB: "",
+    now: Date.now()
+  };
+
+  KEY = "mij6vto_jeunes_v1";
+
+  CITY = {
+    tokyo: { n: "TOKYO", c: "#ff5977" },
+    kyoto: { n: "KYOTO", c: "#5fca8f" },
+    osaka: { n: "OSAKA", c: "#ffa03c" },
+    transit: { n: "VOYAGE", c: "#8a93ad" }
+  };
+
+  imgUrl(p) { const r = window.__resources; return (r && r[p]) || p; }
+
+  EVQ = { 7: ["Yasaka Shrine Kyoto", "Sanctuaire Yasaka"], 14: ["Sumiyoshi Taisha Osaka", "Sumiyoshi Taisha"], 15: ["Sumiyoshi Taisha Osaka", "Sumiyoshi Taisha"] };
+
+  DAYS = [
+    { n: 1, dt: "2026-07-18", lab: "Sam 18 juil", d2: "18 juil", city: "transit", title: "Décollage !", kanji: "空", img: "img/day01.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Décollage de France ! Direction le pays du Soleil-Levant. ✈️", links: [] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Vol vers Tokyo, via Istanbul. Films, sieste, hydratation.", links: [] },
+        { ic: "🌙", lb: "SOIR", tx: "Nuit dans l'avion. Dors un max : à l'arrivée, il sera déjà demain (+7h) !", links: [] }
+      ],
+      restos: [], ev: null,
+      tips: ["Mets ta montre à l'heure japonaise dès le décollage, ton corps suivra.", "Dans ton sac cabine : chargeur, adaptateur (prises type A), brosse à dents, un change.", "Bois de l'eau régulièrement pendant le vol, ton futur toi te dira merci."],
+      hostel: { n: "À bord de l'avion", d: "Prochaine étape : Tokyo !", q: null } },
+
+    { n: 2, dt: "2026-07-19", lab: "Dim 19 juil", d2: "19 juil", city: "tokyo", title: "Konnichiwa Tokyo !", kanji: "始", img: "img/day02.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Atterrissage à Tokyo ! 🛬 Immigration, bagages... et premiers pas au Japon.", links: [] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Transfert vers notre auberge du quartier Nippori et installation dans les dortoirs.", links: [["Sakura Hostel Nippori", "Sakura Hostel Nippori Tokyo"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Première balade : l'allée commerçante en bas de l'auberge, premier konbini, premier distributeur de boissons !", links: [] }
+      ],
+      restos: [
+        { n: "Konbini du quartier", d: "Premier bento japonais : le rite d'initiation parfait." },
+        { n: "Autour de la gare Nippori", d: "Gyūdon ou udon pour un premier repas simple et rapide." }
+      ], ev: null,
+      tips: ["Résiste à la sieste ! On tient jusqu'au soir pour caler son horloge interne.", "Le jour se lève vers 4h30 en été au Japon (et pas de volets) : sors ton masque de nuit.", "Aujourd'hui tu reçois ta carte de transport : c'est ton sésame, garde-la comme un trésor."],
+      hostel: { n: "Sakura Hostel Nippori", d: "Tokyo - notre maison pour 5 nuits", q: "Sakura Hostel Nippori Tokyo" } },
+
+    { n: 3, dt: "2026-07-20", lab: "Lun 20 juil", d2: "20 juil", city: "tokyo", title: "Shibuya & Harajuku", kanji: "渋", img: "img/day03.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Shibuya : LE carrefour le plus célèbre du monde, la statue du chien Hachikō, les écrans géants. 🐕", links: [["Shibuya Crossing", "Shibuya Crossing Tokyo"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Harajuku : Takeshita Street, la rue de la mode ado - boutiques kawaii, vintage et crêpes roulées.", links: [["Takeshita Street", "Takeshita Street Harajuku"]] },
+        { ic: "🌙", lb: "SOIR", tx: "18h30 : dîner au Sakura Tei, resto d'okonomiyaki qu'on fait griller soi-même à table !", bd: "RÉSERVÉ ✓", links: [["Sakura Tei", "Sakura Tei Harajuku"]] }
+      ],
+      restos: [
+        { n: "Uobei (Shibuya)", d: "Sushis commandés sur écran tactile, livrés sur rail express. Fun garanti.", q: "Uobei Shibuya" },
+        { n: "Crêpes de Takeshita Street", d: "La crêpe roulée de Harajuku : le goûter mythique des ados de Tokyo." },
+        { n: "Gyōza Lou (Harajuku)", d: "Gyōzas cultes et imbattables. La file avance vite.", q: "Gyoza Lou Harajuku" }
+      ], ev: null,
+      tips: ["À chaque feu vert, jusqu'à 3000 personnes traversent Shibuya en même temps. Filme, tu ne le croiras pas toi-même.", "Entre Harajuku et Shibuya se cache la forêt géante du sanctuaire Meiji-jingū : 100 000 arbres en plein Tokyo.", "Chef d'un soir : au Sakura Tei, c'est TOI qui fais griller ton okonomiyaki."],
+      hostel: { n: "Sakura Hostel Nippori", d: "Tokyo", q: "Sakura Hostel Nippori Tokyo" } },
+
+    { n: 4, dt: "2026-07-21", lab: "Mar 21 juil", d2: "21 juil", city: "tokyo", title: "Origami, Asakusa & vue du ciel", kanji: "雷", img: "img/day04.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Atelier origami dans le quartier d'Iidabashi (13h30-14h45) : l'art du papier plié, niveau expert. 🦢", bd: "RÉSERVÉ ✓", links: [["Iidabashi", "Iidabashi Station Tokyo"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Asakusa : la porte Kaminarimon et sa lanterne géante, le temple Sensō-ji, la rue Nakamise. Puis chill au parc Ueno.", links: [["Sensō-ji", "Senso-ji Asakusa"], ["Parc Ueno", "Ueno Park Tokyo"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Veillée tout là-haut : l'observatoire de la tour du gouvernement de Tokyo, la ville illuminée à 202 mètres sous tes pieds.", links: [["Observatoire", "Tokyo Metropolitan Government Building Observatory"]] }
+      ],
+      restos: [
+        { n: "Melonpan de Kagetsudo", d: "La brioche croustillante chaude, star absolue d'Asakusa.", q: "Kagetsudo Asakusa" },
+        { n: "Street food d'Ameyoko", d: "Marché de rue animé côté Ueno : brochettes, fruits frais sur bâton.", q: "Ameyoko Ueno" },
+        { n: "Tendon d'Asakusa", d: "Le quartier est réputé pour ses bols de riz aux tempuras." }
+      ], ev: null,
+      tips: ["Au Sensō-ji, tire un omikuji (papier de fortune). Mauvaise fortune ? On la noue sur place et elle reste au temple !", "Depuis les bords de la rivière Sumida, superbe vue sur la Tokyo Skytree.", "L'observatoire au coucher du soleil, c'est Tokyo qui s'allume en direct sous tes yeux."],
+      hostel: { n: "Sakura Hostel Nippori", d: "Tokyo", q: "Sakura Hostel Nippori Tokyo" } },
+
+    { n: 5, dt: "2026-07-22", lab: "Mer 22 juil", d2: "22 juil", city: "tokyo", title: "Odaiba, Akihabara & sushi party", kanji: "電", img: "img/day05.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Odaiba, l'île futuriste de la baie (Rainbow Bridge, Gundam géant), puis Akihabara la ville électrique : mangas, jeux vidéo, figurines. 🤖", links: [["Odaiba", "DiverCity Tokyo Plaza Odaiba"], ["Akihabara", "Akihabara Electric Town"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Atelier sushi à l'auberge : apprends à rouler tes makis comme un chef ! 🍣", bd: "RÉSERVÉ ✓", links: [] },
+        { ic: "🌙", lb: "SOIR", tx: "Veillée à Kabukichō (Shinjuku) : les néons XXL, ambiance Blade Runner. On reste groupés !", links: [["Kabukichō", "Kabukicho Shinjuku"]] }
+      ],
+      restos: [
+        { n: "Food courts d'Odaiba", d: "DiverCity et Aqua City : plein de choix au même endroit, pratique en sous-groupes." },
+        { n: "Curry d'Akihabara", d: "Le curry japonais, carburant officiel des gamers d'Akiba.", q: "CoCo Ichibanya Akihabara" },
+        { n: "Bento face au Rainbow Bridge", d: "Pique-nique de konbini avec vue sur la baie : le grand luxe." }
+      ], ev: null,
+      tips: ["À Akihabara, les trésors se cachent dans les étages : ne reste pas au rez-de-chaussée.", "Repère les UFO catchers (attrape-peluches) : la revanche se jouera au Round One d'Osaka.", "À Kabukichō on regarde, on photographie les néons... et on n'entre nulle part sans les anims."],
+      hostel: { n: "Sakura Hostel Nippori", d: "Tokyo", q: "Sakura Hostel Nippori Tokyo" } },
+
+    { n: 6, dt: "2026-07-23", lab: "Jeu 23 juil", d2: "23 juil", city: "tokyo", title: "teamLab Planets 🌌", kanji: "光", img: "img/day06.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "teamLab Planets à 10h30 : le musée d'art numérique où on marche pieds nus dans l'eau, au milieu des lumières. Photos de fou garanties.", bd: "RÉSERVÉ ✓", links: [["teamLab Planets", "teamLab Planets TOKYO"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Après-midi à construire en équipe : dernières envies de Tokyo ! Idées : marché de Tsukiji, retour à Shibuya, chill au parc Ueno.", links: [["Marché de Tsukiji", "Tsukiji Outer Market"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Dernière veillée à Tokyo : terrasse de l'auberge ou balade dans Nippori. Ce soir, on boucle les valises pour le transfert !", links: [] }
+      ],
+      restos: [
+        { n: "Marché extérieur de Tsukiji", d: "Brochettes de thon grillé, omelette tamagoyaki sur bâton : la street food de la mer.", q: "Tsukiji Outer Market" },
+        { n: "Ramen Street (Tokyo Station)", d: "Une allée souterraine de restos de ramen réputés, en plein cœur de la gare.", q: "Tokyo Ramen Street" },
+        { n: "Konbini", d: "La valeur sûre de tous les jours." }
+      ], ev: null,
+      tips: ["À teamLab, on marche vraiment dans l'eau : prévois un short ou un bas facile à retrousser (casiers fournis).", "Ta valise part séparément vers Kyoto demain matin : garde un sac de jour avec l'essentiel.", "Dernier tour de Yamanote Line ce soir : demain, cap à l'ouest en Shinkansen."],
+      hostel: { n: "Sakura Hostel Nippori", d: "Tokyo - dernière nuit", q: "Sakura Hostel Nippori Tokyo" } },
+
+    { n: 7, dt: "2026-07-24", lab: "Ven 24 juil", d2: "24 juil", city: "kyoto", title: "Shinkansen → Kyoto", kanji: "新", img: "img/day07.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Shinkansen Tokyo → Kyoto : 2h15 à 285 km/h. Installe-toi et regarde le Japon défiler. 🚅", bd: "RÉSERVÉ ✓", links: [["Tokyo Station", "Tokyo Station"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "13h30 : on récupère les valises à Nijō Station, puis check-in à l'auberge Utano en fin d'après-midi.", links: [["Nijō Station", "Nijo Station Kyoto"], ["Utano YH", "Utano Youth Hostel Kyoto"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Découverte de la plus belle auberge du voyage : style japonais, grande cour intérieure, calme total. Et peut-être le Gion Matsuri (voir l'encadré) !", links: [["Sanctuaire Yasaka", "Yasaka Shrine Kyoto"]] }
+      ],
+      restos: [
+        { n: "Ekiben", d: "LE rituel du Shinkansen : un bento de gare dégusté dans le train. Expérience japonaise ultime." },
+        { n: "Konbini de la gare de Kyoto", d: "L'option rapide du jour de voyage." }
+      ],
+      ev: { t: "🏮 Gion Matsuri - dernier soir !", p: "Nous arrivons pile pour la clôture du plus célèbre festival du Japon : dès 17h, les mikoshi (sanctuaires portables) rentrent au sanctuaire Yasaka, portés par des centaines de porteurs dans les rues illuminées du centre. Si l'équipe valide la veillée : souvenir inoubliable." },
+      tips: ["Le mont Fuji apparaît environ 40 minutes après le départ, côté droit (sièges E), si le ciel est d'accord. 🗻", "Dans le Shinkansen on chuchote : le wagon est une bibliothèque lancée à 285 km/h.", "Demain matin : petit déjeuner japonais à l'auberge. Goûte tout, tu risques d'adorer."],
+      hostel: { n: "Utano YH", d: "Kyoto - bus « Youth Hostel Mae » devant la porte", q: "Utano Youth Hostel Kyoto" } },
+
+    { n: 8, dt: "2026-07-25", lab: "Sam 25 juil", d2: "25 juil", city: "kyoto", title: "10 000 torii & vieux Kyoto", kanji: "千", img: "img/day08.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Départ tôt pour Fushimi Inari : les tunnels de milliers de torii vermillon qui grimpent la montagne sacrée. ⛩️", links: [["Fushimi Inari", "Fushimi Inari Taisha"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Musée international du manga (des murs entiers à lire sur place !), puis Kiyomizu-dera, le temple sur pilotis avec vue sur tout Kyoto.", links: [["Musée du manga", "Kyoto International Manga Museum"], ["Kiyomizu-dera", "Kiyomizu-dera Kyoto"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Retour à l'auberge, veillée dans la grande cour sous les étoiles.", links: [] }
+      ],
+      restos: [
+        { n: "Street food de Fushimi", d: "Devant le sanctuaire : brochettes, taiyaki (gaufre-poisson fourrée), thé glacé." },
+        { n: "Ruelles de Sannenzaka", d: "Vers Kiyomizu : dango, glaces au matcha, croquettes croustillantes." },
+        { n: "Teramachi", d: "Les galeries couvertes du centre : le plein d'énergie après la marche.", q: "Teramachi Street Kyoto" }
+      ], ev: null,
+      tips: ["Les renards (kitsune) sont les messagers du dieu Inari : compte les statues que tu croises.", "Le réveil pique, mais à 8h dans les torii la magie est totale. Joue le jeu !", "À Kiyomizu, l'eau de la cascade Otowa exauce un vœu : santé, études ou amour. On ne choisit qu'UN filet !"],
+      hostel: { n: "Utano YH", d: "Kyoto", q: "Utano Youth Hostel Kyoto" } },
+
+    { n: 9, dt: "2026-07-26", lab: "Dim 26 juil", d2: "26 juil", city: "kyoto", title: "Bambous & Pavillon d'or", kanji: "竹", img: "img/day09.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "La forêt de bambous d'Arashiyama, le pont Togetsukyō et la rivière : on joue à domicile, l'auberge est dans le coin. 🎋", links: [["Forêt de bambous", "Arashiyama Bamboo Grove"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Kinkaku-ji, le Pavillon d'or qui se reflète dans son étang, puis le mystérieux jardin de pierres du Ryōan-ji.", links: [["Kinkaku-ji", "Kinkaku-ji Kyoto"], ["Ryōan-ji", "Ryoan-ji Kyoto"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Dernière veillée à Kyoto dans la cour : ambiance colo sous les étoiles.", links: [] }
+      ],
+      restos: [
+        { n: "Street food d'Arashiyama", d: "Croquettes korokke, dango grillés, soft cream au matcha le long de la rue principale." },
+        { n: "Pique-nique au bord de l'eau", d: "Le spot : les berges de la rivière Katsura, face aux montagnes." },
+        { n: "Udon du pont Togetsukyō", d: "Petits restos de nouilles simples, rapides et efficaces." }
+      ], ev: null,
+      tips: ["Le jardin du Ryōan-ji compte 15 rochers... impossibles à voir tous en même temps. Essaie.", "Assieds-toi 5 minutes en silence devant le jardin : c'est le but du jeu depuis 500 ans.", "Des singes vivent sur la colline d'Iwatayama, juste au-dessus de la rivière."],
+      hostel: { n: "Utano YH", d: "Kyoto - dernière nuit", q: "Utano Youth Hostel Kyoto" } },
+
+    { n: 10, dt: "2026-07-27", lab: "Lun 27 juil", d2: "27 juil", city: "osaka", title: "Cap sur Osaka !", kanji: "道", img: "img/day10.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Train pour Osaka (30 min) : changement d'ambiance, bienvenue dans la ville la plus gourmande et la plus marrante du Japon.", links: [] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Check-in à l'auberge Shin Osaka, au 10e étage avec vue sur la ville.", links: [["Shin Osaka YH", "Shin Osaka Youth Hostel"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Veillée à Dōtombori : les néons géants, l'enseigne Glico, le canal illuminé. 🌃", links: [["Dōtombori", "Dotonbori Osaka"], ["Pont Ebisubashi", "Ebisubashi Bridge Osaka"]] }
+      ],
+      restos: [
+        { n: "Takoyaki de Dōtombori", d: "Les boulettes de poulpe, spécialité absolue d'Osaka. Brûlantes : souffle dessus !" },
+        { n: "Gyōza no Ōshō", d: "La chaîne reine du Kansai : gyōzas + riz, imbattable.", q: "Gyoza no Ohsho Namba" },
+        { n: "Ichiran Dōtombori", d: "Le fameux ramen en cabine individuelle, ouvert quasi 24h/24.", q: "Ichiran Dotonbori" }
+      ], ev: null,
+      tips: ["À Osaka on se tient à DROITE sur les escalators - l'inverse de Tokyo !", "La devise locale : kuidaore, « manger jusqu'à en tomber ». Programme accepté.", "LA photo du séjour : bras levés devant le Glico Man, depuis le pont Ebisubashi."],
+      hostel: { n: "Shin Osaka YH", d: "Osaka - 10e étage - couvre-feu minuit", q: "Shin Osaka Youth Hostel" } },
+
+    { n: 11, dt: "2026-07-28", lab: "Mar 28 juil", d2: "28 juil", city: "osaka", title: "Château & arcade", kanji: "城", img: "img/day11.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Le parc du château d'Osaka : le donjon blanc et or au-dessus des douves. Photo de groupe obligatoire. 🏯", links: [["Château d'Osaka", "Osaka Castle Park"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Quartier Namba, puis Round One : des étages entiers de bornes d'arcade, air hockey, jeux de rythme et UFO catchers.", links: [["Round One Namba", "Round1 Namba Osaka"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Retour tranquille : demain, Kobe nous attend.", links: [] }
+      ],
+      restos: [
+        { n: "Pique-nique au château", d: "Déjeuner sur l'herbe avec vue sur le donjon." },
+        { n: "Namba Walk", d: "La galerie souterraine : des dizaines de petits restos entre les stations.", q: "Namba Walk Osaka" },
+        { n: "Kaiten-sushi à Namba", d: "Sushis sur tapis roulant : le défi de la plus belle pile d'assiettes." }
+      ], ev: null,
+      tips: ["Le Taiko no Tatsujin (jeu de tambour) est LE jeu à faire en équipe : tournoi du groupe ?", "Défi kaiten-sushi : qui montera la plus belle pile d'assiettes ?", "Sous Namba s'étend une vraie ville souterraine de galeries : impossible de s'ennuyer."],
+      hostel: { n: "Shin Osaka YH", d: "Osaka", q: "Shin Osaka Youth Hostel" } },
+
+    { n: 12, dt: "2026-07-29", lab: "Mer 29 juil", d2: "29 juil", city: "osaka", title: "Excursion à Kobe", kanji: "港", img: "img/day12.jpg", noCredit: true,
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Excursion à Kobe (40 min de train) : Nankinmachi, le Chinatown aux lanternes rouges et aux stands fumants. 🏮", links: [["Nankinmachi", "Nankinmachi Kobe"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Montée en téléphérique au-dessus de la ville jusqu'au jardin Nunobiki : cascades, plantes aromatiques, vue mer et montagne. 🚡", links: [["Jardin Nunobiki", "Kobe Nunobiki Herb Gardens"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Retour à Osaka, soirée cocooning à l'auberge (coin manga ?).", links: [] }
+      ],
+      restos: [
+        { n: "Buta-man de Rōshōki", d: "Les brioches vapeur au porc les plus célèbres du Japon. La file avance vite.", q: "Roshoki Kobe" },
+        { n: "Street food de Chinatown", d: "Raviolis vapeur, brochettes, bubble tea : on picore de stand en stand." },
+        { n: "Autour de Sannomiya", d: "Toutes les valeurs sûres (gyūdon, udon, curry) au retour.", q: "Sannomiya Station Kobe" }
+      ], ev: null,
+      tips: ["Kobe est coincée entre mer et montagne : l'un des plus beaux panoramas du séjour.", "Les brioches vapeur se mangent brûlantes, à la sortie du panier. Patience de ninja.", "Depuis le jardin, on redescend à pied ou en téléphérique : suspense."],
+      hostel: { n: "Shin Osaka YH", d: "Osaka", q: "Shin Osaka Youth Hostel" } },
+
+    { n: 13, dt: "2026-07-30", lab: "Jeu 30 juil", d2: "30 juil", city: "osaka", title: "Nara & les biches 🦌", kanji: "鹿", img: "img/day13.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Nara, première capitale du Japon : plus de 1000 biches en liberté qui s'inclinent pour demander des biscuits.", links: [["Parc de Nara", "Nara Park"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Tōdai-ji, le gigantesque temple de bois et son Bouddha de bronze de 15 mètres, puis les allées de lanternes vers Kasuga Taisha.", links: [["Tōdai-ji", "Todai-ji Nara"], ["Kasuga Taisha", "Kasuga Taisha Nara"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Retour à Osaka. Ce soir commence le grand festival d'été Sumiyoshi Matsuri (la suite demain) !", links: [] }
+      ],
+      restos: [
+        { n: "Mochi de Nakatanidou", d: "Les mochis frappés au marteau en public : le show ET le goûter.", q: "Nakatanidou Nara" },
+        { n: "Arcade Higashimuki", d: "Galerie commerçante entre la gare et le parc : udon, curry, kaiten-sushi.", q: "Higashimuki Shopping Street Nara" },
+        { n: "Konbini avant le parc", d: "Pique-nique possible... mais JAMAIS devant les biches." }
+      ], ev: null,
+      tips: ["Incline-toi devant une biche : beaucoup s'inclinent en retour. Vidéo culte assurée.", "Cache les biscuits dans ton dos entre deux distributions... sinon tu vas te faire encercler.", "Les biches mangent TOUT : tickets, plans, sacs. Range tes papiers."],
+      hostel: { n: "Shin Osaka YH", d: "Osaka", q: "Shin Osaka Youth Hostel" } },
+
+    { n: 14, dt: "2026-07-31", lab: "Ven 31 juil", d2: "31 juil", city: "osaka", title: "Geek, ninja & karaoké", kanji: "忍", img: "img/day14.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Shopping geek à Den-Den Town (le Akihabara d'Osaka : rétro-gaming, figurines, mangas) et dans la galerie Shinsaibashi.", links: [["Den-Den Town", "Den Den Town Osaka"], ["Shinsaibashi", "Shinsaibashi-suji Osaka"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Atelier ninja à 15h00 : shuriken, postures et techniques secrètes. 🥷", bd: "RÉSERVÉ ✓", links: [] },
+        { ic: "🌙", lb: "SOIR", tx: "Veillée karaoké à Namba : box privée pour le groupe, playlist internationale. La soirée légendaire du séjour. 🎤", links: [["Namba", "Namba Osaka"]] }
+      ],
+      restos: [
+        { n: "Kushikatsu de Shinsekai", d: "Brochettes panées-frites du quartier voisin. Règle sacrée : on ne trempe qu'UNE fois !", q: "Shinsekai Osaka" },
+        { n: "Chaînes de Namba", d: "Gyūdon, curry, ramen : tout est là, à chaque coin de rue." },
+        { n: "Onigiri de konbini", d: "Ravitaillement éclair entre deux boutiques." }
+      ],
+      ev: { t: "🏮 Sumiyoshi Matsuri - la grande purification", p: "Aujourd'hui au sanctuaire Sumiyoshi Taisha : la cérémonie Nagoshi no Harae et sa procession en costumes d'époque qui traverse un grand anneau d'herbes sacrées. À deux pas de Den-Den Town en petit tram rétro, si le timing le permet !" },
+      tips: ["Règle sacrée du kushikatsu : on ne trempe sa brochette qu'UNE seule fois dans la sauce commune.", "Au karaoké, la télécommande a un menu en anglais : cherche par nom d'artiste.", "Mission souvenir : apprends à écrire ton prénom en katakana."],
+      hostel: { n: "Shin Osaka YH", d: "Osaka - dernière vraie nuit", q: "Shin Osaka Youth Hostel" } },
+
+    { n: 15, dt: "2026-08-01", lab: "Sam 1er août", d2: "1 août", city: "osaka", title: "Dernier jour & décollage", kanji: "発", img: "img/day15.jpg", noCredit: true,
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Matinée libre à Osaka : derniers achats, dernières photos... et pour les lève-tôt, le final du Sumiyoshi Matsuri (encadré).", links: [["Sumiyoshi Taisha", "Sumiyoshi Taisha Osaka"]] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Valises bouclées, direction l'aéroport du Kansai en début de soirée.", links: [["Aéroport Kansai", "Kansai International Airport"]] },
+        { ic: "🌙", lb: "SOIR", tx: "Décollage. Sayōnara le Japon ! ✈️", links: [] }
+      ],
+      restos: [
+        { n: "Dernier bento konbini", d: "L'occasion de dire au revoir à ton onigiri préféré." },
+        { n: "Food court de l'aéroport", d: "Dernier ramen ou dernier curry avant l'embarquement." }
+      ],
+      ev: { t: "🏮 Sumiyoshi Matsuri - grand final", p: "Le plus grand mikoshi d'Osaka (2 tonnes, 11 mètres !) est porté à travers le sanctuaire, franchit le célèbre pont arrondi Sorihashi et part en procession vers Sakai. Pile sur notre matinée libre, à valider avec l'équipe." },
+      tips: ["Un petit « arigatō gozaimashita » au staff de l'auberge au moment du départ : effet garanti.", "Garde un fond de batterie pour les photos de l'aéroport (et le film du décollage).", "Dernier onigiri : choisis-le bien, c'est le goodbye-gohan."],
+      hostel: { n: "Aéroport du Kansai", d: "Vol retour via Istanbul", q: "Kansai International Airport" } },
+
+    { n: 16, dt: "2026-08-02", lab: "Dim 2 août", d2: "2 août", city: "transit", title: "Retour en France", kanji: "家", img: "img/day16.jpg",
+      slots: [
+        { ic: "🌅", lb: "MATIN", tx: "Vol via Istanbul.", links: [] },
+        { ic: "☀️", lb: "APRES-MIDI", tx: "Atterrissage en France. 🇫🇷", links: [] },
+        { ic: "🌙", lb: "SOIR", tx: "Retrouvailles, souvenirs plein la tête, pellicule pleine. Otsukaresama : bien joué à tous !", links: [] }
+      ],
+      restos: [], ev: null,
+      tips: ["Le décalage se rattrape en 2-3 jours : couche-toi à des heures normales.", "Trie tes photos tant que c'est frais, et partage-les au groupe.", "Le « syndrome du Japon qui manque » est réel. Traitement connu : replonger dans ce guide."],
+      hostel: { n: "Maison douce maison", d: "Fin du voyage... jusqu'au prochain ?", q: null } }
+  ];
+
+  PHRASES = [
+    ["Bonjour", "こんにちは", "Konnichiwa", "kon-ni-tchi-wa", "Bases"],
+    ["Bonjour (le matin)", "おはようございます", "Ohayō gozaimasu", "o-ha-yo go-zaï-mass", "Bases"],
+    ["Bonsoir", "こんばんは", "Konbanwa", "kon-ban-wa", "Bases"],
+    ["Merci beaucoup", "ありがとうございます", "Arigatō gozaimasu", "a-ri-ga-to go-zaï-mass", "Bases"],
+    ["Pardon / Excusez-moi (le mot magique)", "すみません", "Sumimasen", "sou-mi-ma-sèn", "Bases"],
+    ["S'il vous plaît", "お願いします", "Onegai shimasu", "o-né-gaï chi-mass", "Bases"],
+    ["Oui / Non", "はい / いいえ", "Hai / Iie", "haï / i-i-é", "Bases"],
+    ["Au revoir", "さようなら", "Sayōnara", "sa-yo-na-ra", "Bases"],
+    ["Ça va, merci (refuser poliment)", "大丈夫です", "Daijōbu desu", "daï-jo-bou dess", "Bases"],
+    ["Celui-ci, s'il vous plaît (en pointant)", "これをください", "Kore o kudasai", "ko-ré o kou-da-saï", "À table"],
+    ["Bon appétit (avant de manger)", "いただきます", "Itadakimasu", "i-ta-da-ki-mass", "À table"],
+    ["Merci pour ce repas (après)", "ごちそうさまでした", "Gochisōsama deshita", "go-tchi-so-sa-ma dé-chi-ta", "À table"],
+    ["C'est délicieux !", "おいしい！", "Oishii!", "o-ï-chi-i", "À table"],
+    ["De l'eau, s'il vous plaît", "水をください", "Mizu o kudasai", "mi-zou o kou-da-saï", "À table"],
+    ["L'addition, s'il vous plaît", "お会計お願いします", "Okaikei onegai shimasu", "o-kaï-kéï o-né-gaï chi-mass", "À table"],
+    ["Sans viande, s'il vous plaît", "肉なしでお願いします", "Niku nashi de onegai shimasu", "ni-kou na-chi dé o-né-gaï chi-mass", "À table"],
+    ["J'ai une allergie", "アレルギーがあります", "Arerugī ga arimasu", "a-ré-rou-gui ga a-ri-mass", "À table"],
+    ["Où est... ?", "...はどこですか？", "... wa doko desu ka?", "wa do-ko dess ka", "Se repérer"],
+    ["Où sont les toilettes ?", "トイレはどこですか？", "Toire wa doko desu ka?", "to-ï-ré wa do-ko dess ka", "Se repérer"],
+    ["Où est la gare ?", "駅はどこですか？", "Eki wa doko desu ka?", "é-ki wa do-ko dess ka", "Se repérer"],
+    ["Je suis perdu(e)", "道に迷いました", "Michi ni mayoimashita", "mi-tchi ni ma-yo-i-ma-chi-ta", "Se repérer"],
+    ["Je ne comprends pas", "わかりません", "Wakarimasen", "wa-ka-ri-ma-sèn", "Se repérer"],
+    ["Parlez-vous anglais ?", "英語を話せますか？", "Eigo o hanasemasu ka?", "éï-go o ha-na-sé-mass ka", "Se repérer"],
+    ["Combien ça coûte ?", "いくらですか？", "Ikura desu ka?", "i-kou-ra dess ka", "Boutique"],
+    ["Je peux prendre une photo ?", "写真を撮ってもいいですか？", "Shashin o totte mo ii desu ka?", "cha-chine o tot-té mo i-i dess ka", "Boutique"],
+    ["À l'aide !", "助けて！", "Tasukete!", "tass-ké-té", "Urgence"]
+  ];
+
+  MISSIONS = ["Dire « sumimasen » à un Japonais (et recevoir un sourire)", "Manger un onigiri de konbini", "Traverser le carrefour de Shibuya en filmant", "Trouver le distributeur de boissons le plus bizarre", "Faire griller ton okonomiyaki sans le casser", "Tirer un omikuji au Sensō-ji", "Apercevoir le mont Fuji depuis le Shinkansen", "Franchir ton 1000e torii à Fushimi Inari", "Tenir 5 minutes de silence devant le jardin du Ryōan-ji", "T'incliner devant une biche... et qu'elle s'incline en retour", "Photo bras levés devant le Glico Man", "Commander tout seul avec « kore o kudasai »", "Chanter (ou danser) au karaoké de Namba", "Marcher pieds nus dans l'eau de teamLab", "Battre un anim au Taiko no Tatsujin", "Écrire ton prénom en katakana"];
+
+  PACK = ["Masque de nuit (le soleil se lève à 4h30 !)", "Adaptateur de prise type A", "Batterie externe chargée", "Gourde ou petite bouteille", "Petit sac pour tes déchets (poubelles rares)", "Chaussures faciles à enlever", "Short ou bas retroussable pour teamLab", "Casquette ou chapeau", "Mini trousse (pansements, médicaments perso)", "Un carnet pour les tampons de gare et souvenirs"];
+
+  FOODS = [
+    { ic: "🍙", n: "Onigiri", jp: "おにぎり", d: "La boulette de riz fourrée, star du konbini" },
+    { ic: "🍜", n: "Ramen", jp: "ラーメン", d: "Nouilles + bouillon. Slurper = compliment" },
+    { ic: "🥞", n: "Okonomiyaki", jp: "お好み焼き", d: "Tu la fais griller toi-même au J3 !" },
+    { ic: "🐙", n: "Takoyaki", jp: "たこ焼き", d: "Boulettes de poulpe, la fierté d'Osaka" },
+    { ic: "🍛", n: "Curry japonais", jp: "カレー", d: "Doux et réconfortant, à personnaliser" },
+    { ic: "🍣", n: "Kaiten-sushi", jp: "回転寿司", d: "Sushis sur tapis roulant : hypnotique" },
+    { ic: "🍚", n: "Gyūdon", jp: "牛丼", d: "Bol de riz au bœuf, le repas éclair" },
+    { ic: "🍲", n: "Udon", jp: "うどん", d: "Grosses nouilles moelleuses + tempura" },
+    { ic: "🍈", n: "Melonpan", jp: "メロンパン", d: "Brioche croustillante chaude d'Asakusa" },
+    { ic: "🍓", n: "Crêpe de Harajuku", jp: "クレープ", d: "Roulée en cornet, mythique Takeshita" },
+    { ic: "🍡", n: "Mochi & dango", jp: "餅・団子", d: "Frappés au marteau à Nara : le show" },
+    { ic: "🍵", n: "Matcha", jp: "抹茶", d: "En glace, en boisson, en gâteau : partout" }
+  ];
+
+  mq(q) { return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q); }
+
+  TENUES = [
+    { ic: "⛩️", t: "Temples & sanctuaires", items: [
+      { b: "Tenue simple, propre et respectueuse :", t: "un t-shirt ou une chemise légère convient très bien dans la plupart des cas." },
+      { b: "Les épaules :", t: "pas toujours obligatoire de les couvrir, mais c'est plus discret et plus respectueux." },
+      { b: "On évite", t: "les vêtements trop courts, trop moulants ou trop dénudés." },
+      { b: "Le bon réflexe :", t: "une veste légère ou un foulard dans le sac pour pouvoir se couvrir facilement." }
+    ] },
+    { ic: "🌌", t: "teamLab Planets", items: [
+      { b: "Short ou pantalon facile à relever :", t: "on marche pieds nus et on traverse de l'eau dans certaines zones." },
+      { b: "L'idée n'est pas d'être « bien habillé »,", t: "mais d'être à l'aise pour profiter de l'expérience." },
+      { b: "Le sol est parfois en miroir :", t: "évite la jupe, ou prévois un short en dessous (des shorts sont aussi prêtés sur place)." }
+    ] },
+    { ic: "♨️", t: "Onsen & bain japonais", items: [
+      { b: "On se baigne nu :", t: "ce n'est pas fait pour porter un maillot de bain." },
+      { b: "La nudité n'a pas le même sens qu'en France :", t: "c'est un espace de bain, pas un espace où l'on se montre." },
+      { b: "L'attitude :", t: "on ne se regarde pas, on ne fixe personne, on reste calme et discret." },
+      { b: "La petite serviette", t: "sert à préserver l'intimité en dehors de l'eau : avant et après, jamais dans le bain (ni pour nager, ni en permanence)." }
+    ] },
+    { ic: "🏙️", t: "Ville, magasins & métro", items: [
+      { b: "Une tenue simple et propre suffit :", t: "pas besoin d'être habillé très chic." },
+      { b: "On évite", t: "les tenues trop voyantes ou trop provocantes." },
+      { b: "La clim est GLACIALE :", t: "une petite couche en plus dans le sac est très utile." },
+      { b: "Le k-way plié en boule", t: "dans le sac à dos : la météo d'été change vite (averses éclair)." }
+    ] },
+    { ic: "👘", t: "Kimono & tenues traditionnelles", items: [
+      { b: "Le kimono", t: "est la grande tenue traditionnelle en soie, portée pour les occasions spéciales ; le yukata est sa version légère en coton, star des étés et des festivals." },
+      { b: "À Kyoto et Asakusa,", t: "beaucoup de visiteurs en louent pour la journée. Si tu croises des personnes en kimono : on demande AVANT de photographier." },
+      { b: "À Gion,", t: "les maiko et geiko sont des professionnelles qui travaillent : on ne les arrête pas, on ne les touche pas, on ne les poursuit pas." },
+      { b: "Détail qui compte :", t: "le kimono se croise toujours gauche sur droite - l'inverse est réservé aux défunts." },
+      { b: "En auberge,", t: "un yukata est parfois prêté après le bain : tu peux le garder pour dormir." }
+    ] },
+    { ic: "🛍️", t: "Le coin shopping malin", items: [
+      { b: "GU et Uniqlo :", t: "des vêtements légers à petits prix partout au Japon - la gamme AIRism, ultra respirante, est parfaite pour l'été japonais. Un t-shirt oublié ? Réglé sur place." },
+      { b: "Les magasins 100 yen (Daiso, Seria, Can Do) :", t: "éventails, serviettes, chaussettes, gadgets, souvenirs rigolos... des étages entiers de trouvailles." },
+      { b: "L'astuce valise :", t: "pars avec une valise à moitié vide ! Tu reviendras avec des souvenirs, des snacks et des vêtements trouvés sur place." }
+    ] }
+  ];
+
+  componentDidMount() {
+    try {
+      const s = JSON.parse(localStorage.getItem(this.KEY) || "{}");
+      const patch = {};
+      ["missions", "pack", "foodsDone", "telA", "telB"].forEach(k => { if (s[k] !== undefined) patch[k] = s[k]; });
+      if (typeof s.di === "number" && s.di >= 0 && s.di < 16) patch.di = s.di;
+      const ti = this.todayIdx();
+      if (ti >= 0) patch.di = ti;
+      this.setState(patch);
+      this.preloadDay(patch.di !== undefined ? patch.di : 0);
+    } catch (e) { this.preloadDay(0); }
+    this.preloadTenue();
+    this.clockT = setInterval(() => this.setState({ now: Date.now() }), 15000);
+    setTimeout(() => this.centerRail(), 300);
+  }
+  componentWillUnmount() { clearInterval(this.clockT); }
+
+  persist() {
+    try {
+      const { missions, pack, foodsDone, telA, telB, di } = this.state;
+      localStorage.setItem(this.KEY, JSON.stringify({ missions, pack, foodsDone, telA, telB, di }));
+    } catch (e) {}
+  }
+
+  todayIdx() {
+    const n = new Date();
+    const p = n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0") + "-" + String(n.getDate()).padStart(2, "0");
+    return this.DAYS.findIndex(d => d.dt === p);
+  }
+
+  buzz() { try { if (navigator.vibrate) navigator.vibrate(8); } catch (e) {} }
+
+  setRailEl = (el) => { this.railEl = el; };
+  centerRail() {
+    const el = this.railEl; if (!el) return;
+    const x = 8 + this.state.di * 62 + 31 - el.clientWidth / 2;
+    try { el.scrollTo({ left: Math.max(0, x), behavior: "smooth" }); } catch (e) { el.scrollLeft = Math.max(0, x); }
+  }
+
+  preloadDay(i) {
+    const d = this.DAYS[i];
+    if (!d || !d.img) return;
+    try {
+      const im = new Image();
+      im.onerror = () => this.setState(s => ({ imgErrs: { ...s.imgErrs, [i]: true } }));
+      im.src = this.imgUrl(d.img);
+    } catch (e) {}
+  }
+  preloadTenue() {
+    try {
+      const im = new Image();
+      im.onerror = () => this.setState({ tenueImgFailed: true });
+      im.src = this.imgUrl("img/tenue-kimono.jpg");
+    } catch (e) {}
+  }
+
+  selectDay(i) {
+    if (i < 0 || i >= this.DAYS.length) return;
+    this.preloadDay(i);
+    this.buzz();
+    this.setState({ di: i }, () => { this.persist(); this.centerRail(); });
+  }
+
+  goTab(t) { this.buzz(); this.setState({ tab: t }); try { window.scrollTo({ top: 0 }); } catch (e) {} }
+
+  flash(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this.toastT);
+    this.toastT = setTimeout(() => this.setState({ toast: "" }), 1600);
+  }
+
+  speak(txt) {
+    try {
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = "ja-JP"; u.rate = 0.85;
+      const v = (speechSynthesis.getVoices() || []).find(v => (v.lang || "").startsWith("ja"));
+      if (v) u.voice = v;
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    } catch (e) { this.flash("Audio indisponible ici"); }
+  }
+
+  copy(txt) {
+    const done = () => this.flash("Copié ! 📋");
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt).then(done, () => this.flash("Copie impossible")); return; }
+    } catch (e) {}
+    try {
+      const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta);
+      ta.select(); document.execCommand("copy"); document.body.removeChild(ta); done();
+    } catch (e) { this.flash("Copie impossible"); }
+  }
+
+  statusChip() {
+    const n = new Date();
+    const start = new Date(2026, 6, 18), end = new Date(2026, 7, 2, 23, 59);
+    if (n < start) {
+      const dj = Math.ceil((start - n) / 86400000);
+      return "J-" + dj + " avant le décollage 🛫";
+    }
+    if (n > end) return "Séjour terminé - sayōnara ! 🎌";
+    const ti = this.todayIdx();
+    if (ti >= 0) return "Aujourd'hui : Jour " + (ti + 1) + " sur 16 🎌";
+    return "Bon voyage ! 🎌";
+  }
+
+  renderVals() {
+    const st = this.state;
+    const d = this.DAYS[st.di];
+    const c = this.CITY[d.city];
+    const photosOn = this.props.photos ?? true;
+
+    const chipBase = "flex:0 0 auto;font-size:12px;font-weight:900;letter-spacing:.06em;border-radius:24px;padding:7px 14px;cursor:pointer;";
+    const cityChips = [["TOUT", null, "#f5b840"], ["TOKYO", 1, "#ff5977"], ["KYOTO", 6, "#5fca8f"], ["OSAKA", 9, "#ffa03c"]].map(([n, idx, col]) => ({
+      name: n,
+      style: chipBase + "background:rgba(255,255,255,.03);border:1px solid " + col + "55;color:" + col + ";",
+      go: () => this.selectDay(idx === null ? st.di : idx)
+    }));
+
+    const railStops = this.DAYS.map((dd, i) => {
+      const cc = this.CITY[dd.city].c;
+      const on = i === st.di;
+      const today = i === this.todayIdx();
+      return {
+        num: "J" + dd.n,
+        date: dd.d2,
+        dot: "width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;transition:all .18s;border:3px solid " + cc + ";" +
+          (on ? "background:" + cc + ";color:#0b0e1a;transform:scale(1.22);box-shadow:0 0 0 5px " + cc + "38;" : "background:#0b0e1a;color:#f6f0e4;") +
+          (today && !on ? "box-shadow:0 0 0 3px #f5b84066;" : ""),
+        lab: "font-size:9.5px;font-weight:700;letter-spacing:.02em;" + (on ? "color:#f6f0e4;" : "color:#7c849e;") + (today ? "color:#f5b840;" : ""),
+        go: () => this.selectDay(i)
+      };
+    });
+
+    const progressSegs = this.DAYS.map((dd, i) => ({
+      style: "flex:1;height:6px;border-radius:4px;background:" + this.CITY[dd.city].c + (i === st.di ? ";box-shadow:0 0 8px " + this.CITY[dd.city].c + ";opacity:1;" : ";opacity:" + (i < st.di ? ".75" : ".22") + ";")
+    }));
+
+    const daySlots = d.slots.map(s => ({
+      ic: s.ic, lb: s.lb, tx: s.tx, bd: s.bd || false,
+      hasLinks: s.links.length > 0,
+      links: s.links.map(([t, q]) => ({ t, u: this.mq(q) }))
+    }));
+
+    const dayRestos = d.restos.map(r => ({ n: r.n, d: r.d, hasU: !!r.q, u: r.q ? this.mq(r.q) : "#" }));
+    const dayTips = d.tips.map(t => ({ t }));
+
+    const fallbacks = {
+      tokyo: "linear-gradient(140deg,#2a1030 0%,#411637 45%,#1a1130 100%)",
+      kyoto: "linear-gradient(140deg,#0f2a1e 0%,#164434 45%,#0e2030 100%)",
+      osaka: "linear-gradient(140deg,#33200c 0%,#4b2c10 45%,#241430 100%)",
+      transit: "linear-gradient(140deg,#181e33 0%,#232b4a 50%,#141a2e 100%)"
+    };
+    const dayFallback = "position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(240px 160px at 80% 0%, " + c.c + "33, transparent 70%)," + fallbacks[d.city] + ";color:" + c.c + ";";
+
+    const navDef = [["jours", "📅", "Jours"], ["japon", "⛩️", "Japon"], ["bouger", "🚄", "Bouger"], ["manger", "🍜", "Manger"], ["tenues", "👘", "Tenues"], ["dodo", "🛏️", "Dodo"]];
+    const navTabs = navDef.map(([id, ic, t]) => ({
+      ic, t,
+      style: "flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:10px 2px 9px;transition:all .15s;" + (st.tab === id ? "color:#f5b840;transform:translateY(-1px);" : "color:#7c849e;"),
+      go: () => this.goTab(id)
+    }));
+
+    const goldRules = [
+      { ic: "🤫", b: "Silence dans les transports :", t: "on chuchote, jamais de téléphone. Les Japonais y tiennent énormément." },
+      { ic: "🚦", b: "On ne traverse jamais au rouge,", t: "même sans aucune voiture. Tout le monde attend, on fait pareil." },
+      { ic: "🗑️", b: "On garde ses déchets sur soi :", t: "les poubelles sont très rares. Prévois un petit sac dans ton sac à dos." },
+      { ic: "🚶", b: "On ne bloque pas le passage :", t: "en groupe de 21, on se met en file et on libère trottoirs, escalators et sorties." },
+      { ic: "🙅", b: "Quand c'est non, c'est non :", t: "au Japon on n'insiste jamais. Si quelqu'un refuse, c'est vraiment impossible." }
+    ];
+
+    const accData = [
+      { k: "bain", t: "👟 Chaussures & bain japonais", paras: [
+        { b: "Les chaussures restent à l'entrée", t: "des auberges : des sandales sont prêtées. C'est automatique, comme dire bonjour." },
+        { b: "Le bain japonais (ofuro) :", t: "on se lave ASSIS avec la douchette, on se rince complètement... et ensuite seulement on entre dans le grand bain chaud, tout propre. Le bain sert à se détendre, pas à se laver !" },
+        { b: "À Shin Osaka", t: "c'est le mode de lavage principal (des douches classiques existent aussi). Teste : c'est un souvenir de voyage à part entière." }
+      ] },
+      { k: "politesse", t: "🙇 La politesse ninja", paras: [
+        { b: "Sumimasen,", t: "le mot magique : pour appeler, s'excuser, remercier. Utilise-le sans limite." },
+        { b: "Un léger hochement de tête", t: "en guise de salut fait toujours plaisir." },
+        { b: "On ne mange pas en marchant :", t: "on s'arrête à côté du stand ou du konbini, on savoure, on repart." },
+        { b: "Les baguettes ne se plantent jamais", t: "debout dans le riz (geste réservé aux funérailles)." }
+      ] },
+      { k: "applis", t: "📱 Les applis du voyage", paras: [
+        { b: "Google Maps :", t: "ultra fiable au Japon, il donne la ligne, le quai et l'heure exacte des trains." },
+        { b: "DeepL :", t: "traduction instantanée + scan des menus et panneaux en kanji avec l'appareil photo. À télécharger AVANT le départ." },
+        { b: "Attention :", t: "certaines applis françaises ne fonctionnent pas au Japon. Ne compte pas dessus sur place." }
+      ] }
+    ];
+    const accList = accData.map(a => ({
+      t: a.t, paras: a.paras, open: !!st.acc[a.k], mark: st.acc[a.k] ? "−" : "+",
+      go: () => this.setState(s => ({ acc: { ...s.acc, [a.k]: !s.acc[a.k] } }))
+    }));
+
+    const sosSteps = [
+      { n: "1", t: "Reste où tu es : on revient toujours sur nos pas. Ne pars pas « chercher » le groupe." },
+      { n: "2", t: "Appelle ton anim : vous enregistrez les numéros ensemble le jour du départ." },
+      { n: "3", t: "Pas de réseau ? Repère un kōban (mini-poste de police, il y en a partout) et montre la carte de l'auberge." },
+      { n: "4", t: "Le mot qui sauve : « Tasukete kudasai » (aidez-moi svp) + montre l'écran taxi de l'auberge." }
+    ];
+
+    const taxiData = [
+      { t: "Auberge Tokyo", jp: "サクラホステル日暮里", fr: "Sakura Hostel Nippori", sub: "Quartier Nippori, Tokyo" },
+      { t: "Auberge Kyoto", jp: "宇多野ユースホステル", fr: "l'auberge Utano", sub: "Quartier Uzumasa, Kyoto" },
+      { t: "Auberge Osaka", jp: "新大阪ユースホステル", fr: "l'auberge Shin Osaka", sub: "東淀川区東中島1-13-13 10F (à 10 min de la gare Shin-Ōsaka)" }
+    ];
+    const taxiBtns = taxiData.map(x => ({ t: x.t, go: () => this.setState({ addr: x }) }));
+
+    const boxOff = "flex:0 0 auto;width:22px;height:22px;border-radius:7px;border:2px solid #3a4266;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:all .15s;";
+    const boxOn = "flex:0 0 auto;width:22px;height:22px;border-radius:7px;border:2px solid #f5b840;background:#f5b840;display:flex;align-items:center;justify-content:center;font-size:13px;color:#151a2d;font-weight:900;";
+    const mkCheck = (list, doneMap, key) => list.map((t, i) => ({
+      t,
+      box: doneMap[i] ? boxOn : boxOff,
+      mark: doneMap[i] ? "✓" : "·",
+      txt: "font-size:13.5px;flex:1;" + (doneMap[i] ? "color:#7c849e;text-decoration:line-through;" : "color:#f6f0e4;"),
+      go: () => { this.buzz(); this.setState(s => ({ [key]: { ...s[key], [i]: !s[key][i] } }), () => this.persist()); }
+    }));
+
+    const missionList = mkCheck(this.MISSIONS, st.missions, "missions");
+    const nDone = Object.values(st.missions).filter(Boolean).length;
+    const packList = mkCheck(this.PACK, st.pack, "pack");
+
+    const cats = ["Tous", "Bases", "À table", "Se repérer", "Boutique", "Urgence"];
+    const catChips = cats.map(ct => ({
+      t: ct,
+      style: chipBase + (st.cat === ct ? "background:#f5b840;border:1px solid #f5b840;color:#151a2d;" : "background:rgba(255,255,255,.03);border:1px solid #2b3357;color:#a8b0c9;"),
+      go: () => this.setState({ cat: ct })
+    }));
+    const q = st.phraseQ.trim().toLowerCase();
+    const phraseList = this.PHRASES
+      .filter(p => (st.cat === "Tous" || p[4] === st.cat) && (!q || (p[0] + " " + p[2]).toLowerCase().includes(q)))
+      .map(p => ({ fr: p[0], jp: p[1], ro: p[2], ph: p[3], go: () => this.setState({ big: p }) }));
+
+    const numbers = [["1", "ichi"], ["2", "ni"], ["3", "san"], ["4", "yon"], ["5", "go"], ["6", "roku"], ["7", "nana"], ["8", "hachi"], ["9", "kyū"], ["10", "jū"]].map(([n, r]) => ({ n, r }));
+
+    const cardRules = [
+      { ic: "✅", t: "On badge à l'ENTRÉE et à la SORTIE du métro, du train et du bus." },
+      { ic: "🚇", t: "Elle marche partout : métro, bus, trains locaux... et même aux distributeurs et konbini." },
+      { ic: "🚫", t: "Elle ne marche PAS pour le Shinkansen : ce jour-là, les anims ont les billets." },
+      { ic: "💛", t: "Garde-la précieusement tout le séjour : c'est ta clé du Japon. Les anims gèrent les recharges." }
+    ];
+
+    const pillBase = "flex:0 0 auto;font-size:10px;font-weight:900;letter-spacing:.08em;border-radius:20px;padding:3px 10px;height:fit-content;";
+    const lines = [
+      { city: "TOKYO", pill: pillBase + "background:rgba(255,89,119,.14);color:#ff5977;border:1px solid rgba(255,89,119,.4);", b: "Yamanote Line (vert clair) :", t: "LA ligne circulaire qui dessert presque tout : Nippori (notre auberge !), Ueno, Akihabara, Harajuku, Shibuya, Shinjuku. Elle tourne en rond : impossible de se perdre." },
+      { city: "KYOTO", pill: pillBase + "background:rgba(95,202,143,.12);color:#5fca8f;border:1px solid rgba(95,202,143,.4);", b: "Le royaume du bus :", t: "arrêt « Youth Hostel Mae » juste devant l'auberge. 45 minutes jusqu'à la gare : on souffle, on regarde Kyoto défiler." },
+      { city: "OSAKA", pill: pillBase + "background:rgba(255,160,60,.12);color:#ffa03c;border:1px solid rgba(255,160,60,.4);", b: "Midosuji Line (rouge) :", t: "la grande ligne nord-sud : Shin-Ōsaka (auberge) → Umeda → Shinsaibashi → Namba. Notre autoroute quotidienne." }
+    ];
+
+    const shinkTips = [
+      { ic: "🚅", t: "285 km/h, et pourtant on n'entend presque rien : le wagon est silencieux, on chuchote." },
+      { ic: "🗻", t: "Le mont Fuji apparaît ~40 min après le départ, côté droit (sièges E), si le ciel est dégagé." },
+      { ic: "🍱", t: "Le rituel : un ekiben (bento de gare) dégusté pendant que le Japon défile." },
+      { ic: "🧳", t: "Nos valises voyagent séparément : toi, tu montes léger avec ton sac de jour." },
+      { ic: "✨", t: "Zéro déchet laissé derrière soi : les sièges pivotent, les wagons brillent, on respecte." }
+    ];
+
+    const metroRules = [
+      { ic: "🤫", t: "Silence total : pas d'appels, musique au casque, rires en mode ninja." },
+      { ic: "↔️", t: "Escalators : on se tient à GAUCHE à Tokyo... et à DROITE à Osaka !" },
+      { ic: "🚪", t: "On laisse descendre avant de monter, en file indienne sur les marquages au sol." },
+      { ic: "🧮", t: "On se compte à chaque montée et descente. Repère toujours ton binôme." },
+      { ic: "⏱️", t: "Train raté ? Aucune panique : le suivant arrive dans 3 minutes. Reste sur le quai et préviens ton anim." }
+    ];
+
+    const orderSteps = [
+      { n: "1", t: "Beaucoup de restos ont un distributeur de tickets à l'entrée : choisis la photo, prends le ticket, donne-le au comptoir. Fini !" },
+      { n: "2", t: "Sinon : pointe la photo du menu ou les plats en plastique de la vitrine et dis « kore o kudasai »." },
+      { n: "3", t: "L'eau (o-mizu) et le thé sont souvent en libre-service. Et on ne laisse JAMAIS de pourboire : ça peut vexer." }
+    ];
+
+    const tableRules = [
+      { ic: "🙏", t: "« Itadakimasu » avant de manger, « gochisōsama deshita » en partant : effet waouh garanti." },
+      { ic: "🥢", t: "Baguettes jamais plantées dans le riz, jamais pointées vers quelqu'un." },
+      { ic: "🍜", t: "Slurper ses nouilles est un COMPLIMENT au chef. Entraîne-toi." },
+      { ic: "🚶", t: "On ne mange pas en marchant : on s'arrête, on savoure, on repart." },
+      { ic: "🍢", t: "Kushikatsu d'Osaka : on ne trempe sa brochette qu'UNE seule fois dans la sauce commune." },
+      { ic: "🤧", t: "Allergie ? Montre la phrase « Arerugī ga arimasu » de ton kit de japonais." }
+    ];
+
+    const foodBtnBase = "text-align:left;border-radius:16px;padding:12px 13px;cursor:pointer;transition:all .15s;";
+    const foods = this.FOODS.map((f, i) => ({
+      ...f,
+      style: foodBtnBase + (st.foodsDone[i] ? "background:rgba(245,184,64,.09);border:1px solid rgba(245,184,64,.5);" : "background:#151a2d;border:1px solid #252c48;") + "color:#f6f0e4;",
+      check: st.foodsDone[i] ? "margin-left:auto;font-size:13px;color:#f5b840;font-weight:900;" : "margin-left:auto;font-size:13px;color:#3a4266;",
+      mark: st.foodsDone[i] ? "GOÛTÉ ✓" : "à goûter",
+      go: () => { this.buzz(); this.setState(s => ({ foodsDone: { ...s.foodsDone, [i]: !s.foodsDone[i] } }), () => this.persist()); }
+    }));
+    const nFood = Object.values(st.foodsDone).filter(Boolean).length;
+
+    const hostels = [
+      {
+        city: "TOKYO", col: "#ff5977", dates: "J2 → J7 - 5 nuits", n: "Sakura Hostel Nippori", jp: "サクラホステル日暮里",
+        d: "Notre QG de Tokyo, dans le quartier vivant et local de Nippori, avec son allée commerçante en bas (boutiques de kimonos !). La ligne Yamanote à 5 min à pied : tout Tokyo à portée de badge.",
+        feats: [
+          { ic: "🚉", t: "Station Nippori (Yamanote) à 5 minutes à pied" },
+          { ic: "🥐", t: "Petit déjeuner continental inclus chaque matin" },
+          { ic: "🌿", t: "Petite terrasse tranquille pour les veillées" },
+          { ic: "👟", t: "Chaussures à l'entrée, sandales prêtées" }
+        ],
+        q: "Sakura Hostel Nippori Tokyo", taxi: 0
+      },
+      {
+        city: "KYOTO", col: "#5fca8f", dates: "J7 → J10 - 3 nuits", n: "Utano YH", jp: "宇多野ユースホステル",
+        d: "Élue plus belle auberge Hostelling International 2018 et 2019. Style japonais, grande cour intérieure, au calme à l'ouest de Kyoto, tout près de la forêt de bambous d'Arashiyama.",
+        feats: [
+          { ic: "🚌", t: "Bus « Youth Hostel Mae » juste devant la porte" },
+          { ic: "🍚", t: "Petit déjeuner japonais (soupe miso, riz) : goûte tout !" },
+          { ic: "🛁", t: "Bain japonais + cabines de douche classiques" },
+          { ic: "🔥", t: "Grande cour intérieure : le QG des veillées" }
+        ],
+        q: "Utano Youth Hostel Kyoto", taxi: 1
+      },
+      {
+        city: "OSAKA", col: "#ffa03c", dates: "J10 → J15 - 5 nuits", n: "Shin Osaka YH", jp: "新大阪ユースホステル",
+        d: "Auberge moderne aux 9e et 10e étages d'un immeuble récent, vue sur la ville, à 10 minutes à pied de la gare Shin-Ōsaka (métro Midosuji direct vers Namba).",
+        feats: [
+          { ic: "🛁", t: "Ici on se lave à la japonaise : relis le mode d'emploi dans l'onglet Japon, tu vas adorer" },
+          { ic: "📚", t: "Coin café manga (10 personnes max : chacun son tour)" },
+          { ic: "🌙", t: "Couvre-feu strict à minuit : portes fermées après" },
+          { ic: "🍱", t: "Petit déjeuner japonais + chambres futons" }
+        ],
+        q: "Shin Osaka Youth Hostel", taxi: 2
+      }
+    ].map(h => ({
+      ...h,
+      pill: pillBase + "background:" + h.col + "22;color:" + h.col + ";border:1px solid " + h.col + "66;",
+      head: "padding:15px 16px 12px;border-bottom:1px solid #252c48;background:linear-gradient(135deg, " + h.col + "1f, transparent 65%);",
+      u: this.mq(h.q),
+      taxi: () => this.setState({ addr: taxiData[h.taxi] })
+    }));
+
+    const hostelRules = [
+      { ic: "👟", t: "Chaussures OFF à l'entrée, sandales prêtées." },
+      { ic: "🤫", t: "Silence dans les couloirs et dortoirs après 22h." },
+      { ic: "✨", t: "Espaces communs impeccables : on laisse la cuisine et la salle de bain nickel." },
+      { ic: "📶", t: "Wi-Fi disponible dans les trois auberges." },
+      { ic: "⏰", t: "Le soleil se lève à 4h30 et il n'y a pas de volets : masque de nuit conseillé !" }
+    ];
+
+    const jpClock = new Date(st.now).toLocaleTimeString("fr-FR", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit" });
+
+    const btnBase = "background:#151a2d;border:1px solid #2b3357;border-radius:26px;color:#f6f0e4;font-size:12.5px;font-weight:900;padding:10px 15px;cursor:pointer;";
+    const big = st.big;
+
+    return {
+      jpClock,
+      statusChip: this.statusChip(),
+      vJours: st.tab === "jours", vJapon: st.tab === "japon", vBouger: st.tab === "bouger", vManger: st.tab === "manger", vDodo: st.tab === "dodo", vTenues: st.tab === "tenues",
+      tenueImgOk: !st.tenueImgFailed,
+      tenueImg: this.imgUrl("img/tenue-kimono.jpg"),
+      tenueImgErr: () => this.setState({ tenueImgFailed: true }),
+      tenueCards: this.TENUES,
+      shopLinks: [
+        { t: "Uniqlo le plus proche", u: this.mq("Uniqlo") },
+        { t: "GU le plus proche", u: this.mq("GU store Japan") },
+        { t: "Magasin 100 yen (Daiso)", u: this.mq("Daiso") }
+      ],
+      navTabs, progressSegs, cityChips, railStops, setRail: this.setRailEl,
+
+      dayNum: "J" + d.n, dayTitle: d.title, dayLab: d.lab, dayKanji: d.kanji,
+      dayCityName: c.n,
+      cityPill: "flex:0 0 auto;font-size:10px;font-weight:900;letter-spacing:.1em;border-radius:20px;padding:3px 10px;background:" + c.c + "2b;color:" + c.c + ";border:1px solid " + c.c + "77;backdrop-filter:blur(4px);",
+      dayFallback,
+      hasImg: photosOn && !!d.img && !st.imgErrs[st.di],
+      hasCredit: photosOn && !!d.img && !st.imgErrs[st.di] && !d.noCredit,
+      dayImg: d.img ? this.imgUrl(d.img) : "",
+      imgErr: () => this.setState(s => ({ imgErrs: { ...s.imgErrs, [s.di]: true } })),
+      hasEv: !!d.ev, evT: d.ev ? d.ev.t : "", evP: d.ev ? d.ev.p : "",
+      evHasLink: !!(d.ev && this.EVQ[d.n]), evU: d.ev && this.EVQ[d.n] ? this.mq(this.EVQ[d.n][0]) : "#", evLoc: d.ev && this.EVQ[d.n] ? this.EVQ[d.n][1] : "",
+      daySlots, hasRestos: dayRestos.length > 0, dayRestos, dayTips,
+      hostelN: d.hostel.n, hostelD: d.hostel.d, hostelHasU: !!d.hostel.q, hostelU: d.hostel.q ? this.mq(d.hostel.q) : "#",
+      prevDay: () => this.selectDay(st.di - 1),
+      nextDay: () => this.selectDay(st.di + 1),
+      prevStyle: btnBase + (st.di === 0 ? "opacity:.35;" : ""),
+      nextStyle: btnBase + (st.di === this.DAYS.length - 1 ? "opacity:.35;" : "") + "background:rgba(245,184,64,.1);border:1px solid rgba(245,184,64,.5);color:#f5b840;",
+      pagerLab: "Jour " + (st.di + 1) + " / 16",
+      tS: (e) => { const t = e.touches[0]; this.swx = t.clientX; this.swy = t.clientY; },
+      tE: (e) => {
+        const t = e.changedTouches[0]; if (this.swx === undefined) return;
+        const dx = t.clientX - this.swx, dy = t.clientY - this.swy;
+        if (Math.abs(dx) > 64 && Math.abs(dy) < 52) this.selectDay(st.di + (dx < 0 ? 1 : -1));
+        this.swx = undefined;
+      },
+
+      goldRules, accList, sosSteps, taxiBtns,
+      telA: st.telA, telB: st.telB,
+      hasTels: !!(st.telA.trim() || st.telB.trim()),
+      hasTelA: !!st.telA.trim(), telAU: "tel:" + st.telA.replace(/[^\d+#]/g, ""),
+      hasTelB: !!st.telB.trim(), telBU: "tel:" + st.telB.replace(/[^\d+#]/g, ""),
+      onTelA: (e) => this.setState({ telA: e.target.value }, () => this.persist()),
+      onTelB: (e) => this.setState({ telB: e.target.value }, () => this.persist()),
+      showMissions: this.props.missions ?? true,
+      missionList, packList,
+      missionSub: nDone >= 16 ? "Samouraï certifié. Respect éternel. 🏆" : "Coche tes exploits tout au long du séjour.",
+      missionScore: nDone + "/16",
+      missionBar: "height:100%;border-radius:6px;background:linear-gradient(90deg,#f5b840,#ff5a4e);transition:width .3s;width:" + Math.round(nDone / 16 * 100) + "%;",
+
+      phraseQ: st.phraseQ,
+      onQ: (e) => this.setState({ phraseQ: e.target.value }),
+      catChips, phraseList, numbers,
+
+      cardRules, lines, shinkTips, metroRules,
+      foods, foodScore: nFood === 0 ? "Touche une carte quand tu as goûté !" : nFood + "/12 saveurs débloquées" + (nFood >= 12 ? " - estomac légendaire 🏆" : ""),
+      orderSteps, tableRules,
+      hostels, hostelRules,
+
+      hasBig: !!big,
+      bigFr: big ? big[0] : "", bigJp: big ? big[1] : "", bigRo: big ? big[2] : "", bigPh: big ? big[3] : "",
+      closeBig: () => this.setState({ big: null }),
+      speakBig: (e) => { e.stopPropagation(); if (big) this.speak(big[1]); },
+      copyBig: (e) => { e.stopPropagation(); if (big) this.copy(big[1] + " (" + big[2] + ")"); },
+
+      hasAddr: !!st.addr,
+      addrJp: st.addr ? st.addr.jp : "", addrFr: st.addr ? st.addr.fr : "",
+      addrHasSub: !!(st.addr && st.addr.sub), addrSub: st.addr ? (st.addr.sub || "") : "",
+      closeAddr: () => this.setState({ addr: null }),
+
+      hasToast: !!st.toast, toast: st.toast
+    };
+  }
+}
+</script>
+
+
+</body></html>
