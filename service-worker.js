@@ -22,7 +22,7 @@
 'use strict';
 
 const APP_PREFIX = 'jpapp-jeunes-';   // namespace propre à ce guide (Jeunes)
-const VERSION = 'v3.0.1';
+const VERSION = 'v3.1.0';
 const CACHE_NAME = APP_PREFIX + VERSION;
 
 /* GIF 1×1 transparent : réponse de repli pour les liaisons de template non
